@@ -1,0 +1,59 @@
+package com.meer.model.dto;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "User DTO")
+public class User {
+	private String userId;
+	private String userPassword;
+	private String userNickname;
+	private String fortuneNumber;
+	private String sentenceNumber;
+	
+	public User() {
+		
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getUserPassword() {
+		return userPassword;
+	}
+
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
+	}
+
+	public String getUserNickname() {
+		return userNickname;
+	}
+
+	public void setUserNickname(String userNickname) {
+		this.userNickname = userNickname;
+	}
+
+	public String getFortuneNumber() {
+		return fortuneNumber;
+	}
+
+	public void setFortuneNumber(String fortuneNumber) {
+		this.fortuneNumber = fortuneNumber;
+	}
+
+	public String getSentenceNumber() {
+		return sentenceNumber;
+	}
+
+	public void setSentenceNumber(String sentenceNumber) {
+		this.sentenceNumber = sentenceNumber;
+	}
+	
+	
+	
+}
