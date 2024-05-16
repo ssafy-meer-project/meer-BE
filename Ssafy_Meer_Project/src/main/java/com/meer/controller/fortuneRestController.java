@@ -9,5 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping("/api-fortune")
 @Tag(name = "FortuneRestController", description = "포츈쿠키 정보")
 public class fortuneRestController {
+	
+
 
 }

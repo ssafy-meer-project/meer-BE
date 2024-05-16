@@ -2,15 +2,29 @@ package com.meer.model.dto;
 
 import java.util.List;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ChatResponse {
+	
+	private String message;
 
     private List<Choice> choices;
     
+    public ChatResponse() {};
 
     public ChatResponse(List<Choice> choices) {
 		this.choices = choices;
 	}
 
+    public ChatResponse(String message) {
+    	this.message = message;
+    }
+    
 	// constructors, getters and setters
     
     public List<Choice> getChoices() {
@@ -22,7 +36,9 @@ public class ChatResponse {
 		this.choices = choices;
 	}
 
-
+	@Data
+	@NoArgsConstructor
+	@AllArgsConstructor
 	public static class Choice {
 
         private int index;
