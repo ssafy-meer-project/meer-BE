@@ -8,8 +8,6 @@ public class Condition {
 	private String Condition2;
 	private String Condition3;
 	
-	
-	
 	public Condition(String userId, String id, String subject, String condition1, String condition2, String condition3) {
 		this.userId = userId;
 		this.id = id;
@@ -41,6 +39,7 @@ public class Condition {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+	
 	public String getSubject() {
 		return Subject;
 	}

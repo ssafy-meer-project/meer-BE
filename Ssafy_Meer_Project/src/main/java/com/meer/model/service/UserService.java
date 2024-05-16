@@ -13,4 +13,6 @@ public interface UserService {
 	public int modifyFotuneNumber();
 	
 	public User login(User user);
+	
+	public User readUser(String userId);
 }

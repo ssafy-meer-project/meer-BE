@@ -7,7 +7,7 @@ public interface UserDao {
 	public int insertUser(User user);
 
 	public User selectOne(String userId);
-	
+
 	public User selectOneByNickname(String userNickname);
 	
 	public int updateFortuneNumber();
