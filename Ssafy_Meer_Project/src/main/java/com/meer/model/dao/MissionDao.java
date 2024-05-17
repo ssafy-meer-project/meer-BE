@@ -7,11 +7,13 @@ import com.meer.model.dto.Mission;
 
 public interface MissionDao {
 	
-	public Mission insertMission();
+	public int insertMission(Mission mission);
 	
 	public List<Mission> selectMission(String userId);
 	
 	public Mission selectMissionById(Map<String, String> map);
 	
 	public int deleteMission(String userId);
+
+	public int updateMissionById(Mission mission);
 }

@@ -15,7 +15,7 @@ public class ChatResponse {
 
     private List<Choice> choices;
     
-    public ChatResponse() {};
+    // public ChatResponse() {};
 
     public ChatResponse(List<Choice> choices) {
 		this.choices = choices;
@@ -43,10 +43,10 @@ public class ChatResponse {
 
         private int index;
         private Message message;
-		public Choice(int index, Message message) {
-			this.index = index;
-			this.message = message;
-		}
+		// public Choice(int index, Message message) {
+		// 	this.index = index;
+		// 	this.message = message;
+		// }
 		
 		public int getIndex() {
 			return index;

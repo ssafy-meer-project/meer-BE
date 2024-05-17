@@ -3,16 +3,20 @@ package com.meer.model.service;
 import org.springframework.stereotype.Service;
 
 import com.meer.model.dao.UserDao;
+import com.meer.model.dto.Condition;
 import com.meer.model.dto.User;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
 	private final UserDao userDao;
 	
-	public UserServiceImpl(UserDao userDao) {
-		this.userDao = userDao;
-	}
+	// public UserServiceImpl(UserDao userDao) {
+	// 	this.userDao = userDao;
+	// }
 
 	@Override
 	public boolean writeUser(User user) {
@@ -21,7 +25,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User readUserById(String userId) {
-		return userDao.selectOne(userId);
+		return userDao.selectOneById(userId);
 	}
 
 	@Override
@@ -38,8 +42,14 @@ public class UserServiceImpl implements UserService {
 	public User login(User user) {
 		return userDao.login(user);
 	}
-	
-	public User readUser(String userId) {
-		return userDao.selectOne(userId);
+
+	@Override
+	public Condition readConditionById(String userId){
+		return userDao.selectConditionById(userId);
+	}
+
+	@Override
+	public int modifyMissionCondition(Condition condition) {
+		return userDao.updateMissionCondition(condition);
 	}
 }

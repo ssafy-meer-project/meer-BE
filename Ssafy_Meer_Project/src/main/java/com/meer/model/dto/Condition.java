@@ -2,35 +2,19 @@ package com.meer.model.dto;
 
 public class Condition {
 	private String userId;
-	private String id;
-	private String Subject;
-	private String Condition1;
-	private String Condition2;
-	private String Condition3;
+	private String subject;
+	private String condition1;
+	private String condition2;
+	private String condition3;
 	
-	public Condition(String userId, String id, String subject, String condition1, String condition2, String condition3) {
+	public Condition(String userId, String subject, String condition1, String condition2, String condition3) {
 		this.userId = userId;
-		this.id = id;
-		this.Subject = subject;
-		this.Condition1 = condition1;
-		this.Condition2 = condition2;
-		this.Condition3 = condition3;
+		this.subject = subject;
+		this.condition1 = condition1;
+		this.condition2 = condition2;
+		this.condition3 = condition3;
 	}
 	
-	
-
-	public String getId() {
-		return id;
-	}
-
-
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-
-
 	public Condition() {}
 	
 	public String getUserId() {
@@ -41,28 +25,28 @@ public class Condition {
 	}
 	
 	public String getSubject() {
-		return Subject;
+		return subject;
 	}
 	public void setSubject(String subject) {
-		Subject = subject;
+		this.subject = subject;
 	}
 	public String getCondition1() {
-		return Condition1;
+		return condition1;
 	}
 	public void setCondition1(String condition1) {
-		Condition1 = condition1;
+		this.condition1 = condition1;
 	}
 	public String getCondition2() {
-		return Condition2;
+		return condition2;
 	}
 	public void setCondition2(String condition2) {
-		Condition2 = condition2;
+		this.condition2 = condition2;
 	}
 	public String getCondition3() {
-		return Condition3;
+		return condition3;
 	}
 	public void setCondition3(String condition3) {
-		Condition3 = condition3;
+		this.condition3 = condition3;
 	}
 	
 	

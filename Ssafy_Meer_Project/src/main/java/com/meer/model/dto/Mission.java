@@ -1,29 +1,24 @@
 package com.meer.model.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Mission DTO")
 public class Mission {
 	private String userId;
-	private String id;
-	private String title;
-	private String content;
-	private boolean check;
-	
-	public Mission(String userId, String id, String title, String content, boolean check) {
+	private String missionId;
+	private String missionTitle;
+	private String missionContent;
+	private boolean missionCheck;
+
+	public Mission(String userId, String missionId, String missionTitle, String missionContent, boolean missionCheck) {
 		this.userId = userId;
-		this.id = id;
-		this.title = title;
-		this.content = content;
-		this.check = check;
+		this.missionId = missionId;
+		this.missionTitle = missionTitle;
+		this.missionContent = missionContent;
+		this.missionCheck = missionCheck;
 	}
 
 	
-	public boolean isCheck() {
-		return check;
-	}
-
-	public void setCheck(boolean check) {
-		this.check = check;
-	}
-
 	public String getUserId() {
 		return userId;
 	}
@@ -32,28 +27,35 @@ public class Mission {
 		this.userId = userId;
 	}
 
-	public String getId() {
-		return id;
+	public String getMissionId() {
+		return missionId;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setMissionId(String missionId) {
+		this.missionId = missionId;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getMissionTitle() {
+		return missionTitle;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setMissionTitle(String missionTitle) {
+		this.missionTitle = missionTitle;
 	}
 
-	public String getContent() {
-		return content;
+	public String getMissionContent() {
+		return missionContent;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setMissionContent(String missionContent) {
+		this.missionContent = missionContent;
 	}
-	
+
+	public boolean isMissionCheck() {
+		return missionCheck;
+	}
+
+	public void setMissionCheck(boolean missionCheck) {
+		this.missionCheck = missionCheck;
+	}	
 }

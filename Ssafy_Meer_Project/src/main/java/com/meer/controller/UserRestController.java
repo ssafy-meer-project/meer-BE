@@ -24,10 +24,6 @@ public class UserRestController {
 
 	private final UserService userService;
 
-	public UserRestController(UserService userService) {
-		this.userService = userService;
-	}
-
 	// user 회원가입
 	// 
 	@PostMapping("/user/signup")

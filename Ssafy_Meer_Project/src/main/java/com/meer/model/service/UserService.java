@@ -1,5 +1,6 @@
 package com.meer.model.service;
 
+import com.meer.model.dto.Condition;
 import com.meer.model.dto.User;
 
 public interface UserService {
@@ -13,6 +14,8 @@ public interface UserService {
 	public int modifyFotuneNumber();
 	
 	public User login(User user);
-	
-	public User readUser(String userId);
+
+	public Condition readConditionById(String userId);
+
+	public int modifyMissionCondition(Condition condition);
 }

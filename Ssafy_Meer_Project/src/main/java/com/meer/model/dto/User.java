@@ -9,6 +9,8 @@ public class User {
 	private String userNickname;
 	private String fortuneNumber;
 	private String sentenceNumber;
+	private boolean fortuneCheck;
+
 	
 	public User() {
 		
@@ -52,6 +54,14 @@ public class User {
 
 	public void setSentenceNumber(String sentenceNumber) {
 		this.sentenceNumber = sentenceNumber;
+	}
+
+	public boolean isFortuneCheck() {
+		return fortuneCheck;
+	}
+
+	public void setFortuneCheck(boolean fortuneCheck) {
+		this.fortuneCheck = fortuneCheck;
 	}
 	
 	

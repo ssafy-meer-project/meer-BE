@@ -15,12 +15,13 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class MissionServiceImpl implements MissionService{
 	
-	private MissionDao missionDao;
+	private final MissionDao missionDao;
 	
 	@Override
-	public Mission makeMissionLayout() {
-		missionDao.insertMission();
-		return null;
+	public int makeMission(Mission mission) {		
+		return missionDao.insertMission(mission);
+		
+		
 	}
 
 	@Override
@@ -39,5 +40,10 @@ public class MissionServiceImpl implements MissionService{
 	@Override
 	public boolean removeMission(String userId) {		
 		return missionDao.deleteMission(userId)==1;
+	}
+
+	@Override
+	public int modifyMissionById(Mission mission) {
+		return missionDao.updateMissionById(mission);
 	}
 }

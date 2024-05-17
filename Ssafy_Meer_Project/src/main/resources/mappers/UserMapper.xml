@@ -10,7 +10,7 @@
 		(#{userId}, #{userPassword}, #{userNickname});
 	</insert>
 
-	<select id="selectOne" resultType="User" parameterType="String">
+	<select id="selectOneById" resultType="User" parameterType="String">
 		SELECT * from user
 		WHERE user_id = #{userId}
 	</select>
@@ -20,7 +20,7 @@
 		WHERE user_nickname = #{userNickname}
 	</select>
 	
-	<update id="updateForuntNumber">
+	<update id="updateFortuneNumber">	
 		UPDATE user 
 		SET fortune_number = (RAND()*100 %10); 
 	</update>
@@ -29,4 +29,19 @@
 		SELECT * from user
 		WHERE user_id = #{userId} AND user_password = #{userPassword}
 	</select>
+
+	<select id="selectConditionById" parameterType="String" resultType="Condition">
+		SELECT user_id as userId, mission_subject as subject, mission_condition1 as condition1, mission_condition2 as condition2, mission_condition3 as condition3
+		FROM user
+		WHERE user_id = #{userId}
+	</select>
+
+	<update id="updateMissionCondition" parameterType="Condition">
+		UPDATE user
+		SET mission_subject = #{subject},
+		mission_condition1 = #{condition1},
+		mission_condition2 = #{condition2},
+		mission_condition3 = #{condition3}
+		WHERE user_id = #{userId}
+	</update>
 </mapper>

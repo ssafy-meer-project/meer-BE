@@ -7,7 +7,6 @@ USE ssafy_meer_project;
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS calendar;
 DROP TABLE IF EXISTS mission;
-DROP TABLE IF EXISTS mission_check;
 DROP TABLE IF EXISTS fortune;
 DROP TABLE IF EXISTS sentence;
 
@@ -16,7 +15,12 @@ user_id VARCHAR(40) NOT NULL PRIMARY KEY,
 user_password VARCHAR(40) NOT NULL,
 user_nickname VARCHAR(40) NOT NULL,
 fortune_number int NOT NULL DEFAULT (RAND()*100 %10), -- 포츈쿠키가 10개라는 가정하에 %10으로 작성
-sentence_number int NOT NULL DEFAULT (RAND()*100 %10) -- 명언문구가 10개라는 가정하에 %10으로 작성
+sentence_number int NOT NULL DEFAULT (RAND()*100 %10), -- 명언문구가 10개라는 가정하에 %10으로 작성
+mission_subject VARCHAR(10),
+mission_condition1 VARCHAR(10),
+mission_condition2 VARCHAR(10),
+mission_condition3 VARCHAR(10),
+fortune_check boolean DEFAULT false
 ) ;
 
 INSERT INTO user(user_id, user_password, user_nickname)
@@ -60,27 +64,16 @@ REFERENCES user(user_id) ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS mission(
-user_id VARCHAR(40) unique,
-mission1 varchar(100) default '',
-mission2 varchar(100) default '',
-mission3 varchar(100) default '',
-mission4 varchar(100) default '',
-mission5 varchar(100) default '',
+user_id VARCHAR(40),
+mission_id varchar(100) default '',
+mission_title varchar(100) default '',
+mission_content varchar(100) default '',
+mission_check boolean default false,
 FOREIGN KEY(user_id)
 REFERENCES user(user_id) ON UPDATE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS mission_check(
-user_id VARCHAR(40) unique,
-mission_check1 boolean default false,
-mission_check2 boolean default false,
-mission_check3 boolean default false,
-mission_check4 boolean default false,
-mission_check5 boolean default false,
-fortune_check boolean default false,
-FOREIGN KEY(user_id)
-REFERENCES user(user_id) ON UPDATE CASCADE
-);
+select * from mission;
 
 CREATE TABLE IF NOT EXISTS fortune(
 fortune_id int PRIMARY KEY AUTO_INCREMENT,
@@ -92,9 +85,6 @@ sentence_id int PRIMARY KEY AUTO_INCREMENT,
 sentence_word VARCHAR(255),
 sentence_author varchar(100)
 );
-
-DROP TABLE fortune;
-
 
 INSERT INTO fortune(fortune_word)
 VALUES("중요한 것은 꺽이지 않는 마음입니다."),
@@ -129,7 +119,7 @@ select * from user;
 select * from fortune;
 
 select fortune_word from fortune, user
-WHERE user.user_id = "ssafy" and user.fortune_number = fortune.fortune_id;
+WHERE user.user_id = "ssafasdf" and user.fortune_number = fortune.fortune_id;
 
 select sentence_word, sentence_author from sentence, user
-WHERE user.user_id = "ssafy" and user.sentence_number = sentence.sentence_id;
+WHERE user.user_id = "ssafasdf" and user.sentence_number = sentence.sentence_id;

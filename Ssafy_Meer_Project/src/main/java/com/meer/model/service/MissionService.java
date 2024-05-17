@@ -6,7 +6,7 @@ import com.meer.model.dto.Mission;
 
 public interface MissionService {
 	
-	public Mission makeMissionLayout();
+	public int makeMission(Mission mission);
 	
 	public List<Mission> getMission(String userId);
 
@@ -14,5 +14,6 @@ public interface MissionService {
 	
 	public boolean removeMission(String userId);
 	
+	public int modifyMissionById(Mission mission);
 	
 }
