@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -126,16 +127,10 @@ public class MissionRestController {
 		ChatRequest request = new ChatRequest(model, prompt);
 		ChatResponse response = template.postForObject(apiURL, request, ChatResponse.class);
 		String result = response.getChoices().get(0).getMessage().getContent();
-
-		System.out.println(prompt);
-		System.out.println("--------");
 		
 		StringTokenizer st = new StringTokenizer(result, "\n");
 		
 		mission = new Mission(condition.getUserId(), missionId, st.nextToken(), st.nextToken(), false);
-		System.out.println(mission.getUserId());
-		System.out.println(mission.getMissionId());
-		System.out.println(mission.getMissionTitle());
 		missionService.modifyMissionById(mission);
 
 		if (response == null || response.getChoices() == null || response.getChoices().isEmpty()||missionService.modifyMissionById(mission)==0) {
@@ -156,6 +151,12 @@ public class MissionRestController {
 			return new ResponseEntity<>(result, HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+	}
+
+	// 매일 자정에 mission Check 모두 false로 변경
+	@Scheduled(cron = "0 0 0 * * ?")
+	public void doResetMissionCheck() {		
+        userService.doRandomNumber();
 	}
 
 	

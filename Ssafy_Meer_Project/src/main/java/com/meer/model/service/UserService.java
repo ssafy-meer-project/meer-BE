@@ -11,7 +11,7 @@ public interface UserService {
 	
 	public User readUserByNickname(String userNickname);
 	
-	public int modifyFotuneNumber();
+	public int doRandomNumber();
 	
 	public User login(User user);
 

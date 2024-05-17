@@ -24,8 +24,7 @@ public class UserRestController {
 
 	private final UserService userService;
 
-	// user 회원가입
-	// 
+	// user 회원가입	
 	@PostMapping("/user/signup")
 	public ResponseEntity<?> write(@RequestBody User user) {
 		userService.writeUser(user);
@@ -76,12 +75,12 @@ public class UserRestController {
 //		return new ResponseEntity<>(user, HttpStatus.OK);
 //	}
 
-	// fortuneNumber 새롭게 갱신
+	// fortuneNumber, sentenceNumber 새롭게 갱신
 	// 매일 밤 12시에 실행되는 메서드
 	@Scheduled(cron = "0 0 0 * * ?")
-	public void updateFortuneNumber() {
-		System.out.println("FortuneNumber 업데이트 되었습니다");
-        userService.modifyFotuneNumber();
+	public void doRandomNumber() {
+		System.out.println("FortuneNumber, SentenceNumber 업데이트 되었습니다");
+        userService.doRandomNumber();
 	}
 
 }

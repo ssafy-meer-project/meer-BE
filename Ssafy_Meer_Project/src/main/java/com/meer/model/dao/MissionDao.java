@@ -16,4 +16,6 @@ public interface MissionDao {
 	public int deleteMission(String userId);
 
 	public int updateMissionById(Mission mission);
+
+	public int resetMissionCheck();
 }

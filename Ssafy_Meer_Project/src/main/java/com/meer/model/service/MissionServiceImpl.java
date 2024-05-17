@@ -46,4 +46,9 @@ public class MissionServiceImpl implements MissionService{
 	public int modifyMissionById(Mission mission) {
 		return missionDao.updateMissionById(mission);
 	}
+
+	@Override
+	public int resetMissionCheck(){
+		return missionDao.resetMissionCheck();
+	}
 }

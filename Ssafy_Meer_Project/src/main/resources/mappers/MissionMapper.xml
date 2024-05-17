@@ -32,4 +32,8 @@
 		WHERE user_id = #{userId}
 	</delete>
 	
+	<update id="resetMissionCheck">	
+		UPDATE mission
+		SET mission_check = false	
+	</update>
 </mapper>

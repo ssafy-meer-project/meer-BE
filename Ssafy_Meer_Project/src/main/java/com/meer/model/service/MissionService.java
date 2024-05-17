@@ -15,5 +15,7 @@ public interface MissionService {
 	public boolean removeMission(String userId);
 	
 	public int modifyMissionById(Mission mission);
+
+	public int resetMissionCheck();
 	
 }

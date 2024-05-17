@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/api-chat")
-@Tag(name = "OpenAIController", description = "OpenAI info")
 public class OpenAIController {
 
 //	private MissionService missionService;

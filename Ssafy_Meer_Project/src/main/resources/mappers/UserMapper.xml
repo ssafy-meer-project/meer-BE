@@ -20,9 +20,10 @@
 		WHERE user_nickname = #{userNickname}
 	</select>
 	
-	<update id="updateFortuneNumber">	
+	<update id="updateRandomNumber">	
 		UPDATE user 
-		SET fortune_number = (RAND()*100 %10); 
+		SET fortune_number = (RAND()*100 %10),
+		sentence_number = (RAND()*100 %10); 
 	</update>
 	
 	<select id="login" parameterType="User" resultType="User">

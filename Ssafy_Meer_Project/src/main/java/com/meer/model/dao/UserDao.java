@@ -11,8 +11,8 @@ public interface UserDao {
 
 	public User selectOneByNickname(String userNickname);
 	
-	public int updateFortuneNumber();
-	
+	public int updateRandomNumber();
+
 	public User login(User user);
 
 	public Condition selectConditionById(String userId);

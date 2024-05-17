@@ -118,8 +118,14 @@ VALUES("준비하지 않은 자는 기회가 와도 소용없다.","알렉시스
 select * from user;
 select * from fortune;
 
+-- 포츈 및 글귀 번호와 db를 연결하는 sql
 select fortune_word from fortune, user
 WHERE user.user_id = "ssafasdf" and user.fortune_number = fortune.fortune_id;
 
 select sentence_word, sentence_author from sentence, user
 WHERE user.user_id = "ssafasdf" and user.sentence_number = sentence.sentence_id;
+
+-- mission 몇개 했는지 세는 쿼리문
+select count(mission_check)
+from mission
+where user_id="ssafasdf" and mission_check=false;

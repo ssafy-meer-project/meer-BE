@@ -29,8 +29,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int modifyFotuneNumber() {
-		return userDao.updateFortuneNumber();
+	public int doRandomNumber() {
+		return userDao.updateRandomNumber();
 	}
 
 	@Override
