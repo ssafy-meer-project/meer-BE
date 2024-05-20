@@ -18,4 +18,6 @@ public interface UserService {
 	public Condition readConditionById(String userId);
 
 	public int modifyMissionCondition(Condition condition);
+	
+	public boolean readFortuneCheck(String userId);
 }

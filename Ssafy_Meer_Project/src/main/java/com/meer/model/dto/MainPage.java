@@ -1,26 +1,26 @@
 package com.meer.model.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.List;
 
-@Schema(description = "Mission DTO")
-public class Mission {
+import com.meer.model.dto.ChatResponse.Choice;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Schema(description = "MainPage DTO")
+public class MainPage {
 	private String userId;
 	private String missionId;
 	private String missionTitle;
 	private String missionContent;
 	private boolean missionCheck;
-
-	public Mission(String userId, String missionId, String missionTitle, String missionContent, boolean missionCheck) {
-		this.userId = userId;
-		this.missionId = missionId;
-		this.missionTitle = missionTitle;
-		this.missionContent = missionContent;
-		this.missionCheck = missionCheck;
-	}
-
-	
+	private String sentenceWord;
+		
 	public String getUserId() {
-		return userId;
+		return userId; 
 	}
 
 	public void setUserId(String userId) {
@@ -57,5 +57,14 @@ public class Mission {
 
 	public void setMissionCheck(boolean missionCheck) {
 		this.missionCheck = missionCheck;
-	}	
+	}
+
+	public String getSentenceWord() {
+		return sentenceWord;
+	}
+
+	public void setSentenceWord(String sentenceWord) {
+		this.sentenceWord = sentenceWord;
+	}
+
 }

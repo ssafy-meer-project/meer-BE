@@ -1,21 +1,18 @@
 package com.meer.model.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Schema(description = "condition DTO")
 public class Condition {
 	private String userId;
 	private String subject;
 	private String condition1;
 	private String condition2;
 	private String condition3;
-	
-	public Condition(String userId, String subject, String condition1, String condition2, String condition3) {
-		this.userId = userId;
-		this.subject = subject;
-		this.condition1 = condition1;
-		this.condition2 = condition2;
-		this.condition3 = condition3;
-	}
-	
-	public Condition() {}
 	
 	public String getUserId() {
 		return userId;

@@ -18,4 +18,6 @@ public interface UserDao {
 	public Condition selectConditionById(String userId);
 
 	public int updateMissionCondition(Condition condition);
+	
+	public boolean checkFortune(String userId);
 }

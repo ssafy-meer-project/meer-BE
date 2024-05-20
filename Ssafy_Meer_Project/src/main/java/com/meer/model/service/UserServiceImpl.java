@@ -14,10 +14,6 @@ public class UserServiceImpl implements UserService {
 
 	private final UserDao userDao;
 	
-	// public UserServiceImpl(UserDao userDao) {
-	// 	this.userDao = userDao;
-	// }
-
 	@Override
 	public boolean writeUser(User user) {
 		return userDao.insertUser(user)==1;
@@ -51,5 +47,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int modifyMissionCondition(Condition condition) {
 		return userDao.updateMissionCondition(condition);
+	}
+
+	@Override
+	public boolean readFortuneCheck(String userId) {		
+		return userDao.checkFortune(userId);
 	}
 }

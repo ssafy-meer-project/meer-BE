@@ -23,10 +23,11 @@ import org.springframework.web.client.RestTemplate;
 import com.meer.model.dto.ChatRequest;
 import com.meer.model.dto.ChatResponse;
 import com.meer.model.dto.Condition;
-import com.meer.model.dto.Mission;
+import com.meer.model.dto.MainPage;
 import com.meer.model.service.MissionService;
 import com.meer.model.service.UserService;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,9 +35,9 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/api-mission")
-@Tag(name = "MissionRestController", description = "미션정보")
-public class MissionRestController {
+@RequestMapping("/mainpage")
+@Tag(name = "MainpageRestController", description = "미션정보")
+public class MainPageRestController {
 
 	@Qualifier("openaiRestTemplate")
 	@Autowired
@@ -67,46 +68,46 @@ public class MissionRestController {
 		ChatResponse response = template.postForObject(apiURL, request, ChatResponse.class);
 		String result = response.getChoices().get(0).getMessage().getContent();
 
-		// userDB에 subejct와 condition1,2,3을 저장해두는 작업
+		// userDB에 subject와 condition1,2,3을 저장해두는 작업
 		userService.modifyMissionCondition(condition);
 
 		// gpt응답을 내가 원하는대로 parsing
 		StringTokenizer st = new StringTokenizer(result, "\n");
 
 		// mission DB 에 넣는과정
-		List<Mission> list = new ArrayList<>();
+		List<MainPage> list = new ArrayList<>();
 		for (int i = 0; i < 5; i++) {
-			Mission mission = new Mission(condition.getUserId(), st.nextToken(), st.nextToken(), st.nextToken(), false);
-			missionService.makeMission(mission);
-			list.add(mission);
+			MainPage mainPage = new MainPage(condition.getUserId(), st.nextToken(), st.nextToken(), st.nextToken(), false);
+			missionService.makeMission(mainPage);
+			list.add(mainPage);
 		}
 
 		if (response == null || response.getChoices() == null || response.getChoices().isEmpty()) {
 			return new ResponseEntity<>("미션생성에 실패하였습니다", HttpStatus.BAD_GATEWAY);
 		}
 
-		return new ResponseEntity<List<Mission>>(list, HttpStatus.OK);
+		return new ResponseEntity<List<MainPage>>(list, HttpStatus.OK);
 	}
 
-	// 미션 조회
-	// 로그인한 유저와 검색한 유저가 다르면 조회 못하게 막고싶은데,,, 나중에 만나서 얘기하죵
+	// 미션 조회 & 글귀 조회
 	@GetMapping("/mission")
+	@Schema
 	public ResponseEntity<?> getMission(@RequestParam("userId") String userId) {
-		List<Mission> list = new ArrayList<>();
+		List<MainPage> list = new ArrayList<>();
 		list = missionService.getMission(userId);
 		if (list == null || list.size() < 0) {
 			return new ResponseEntity<>("미션이 없습니다.", HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<List<Mission>>(list, HttpStatus.OK);
+		return new ResponseEntity<List<MainPage>>(list, HttpStatus.OK);
 	}
 
 	// 미션 개별 업데이트
 	@PutMapping("/mission")
-	public ResponseEntity<?> updateMission(@RequestBody Mission mission) {				
+	public ResponseEntity<?> updateMission(@RequestBody MainPage mission) {				
 		String userId = mission.getUserId();	
 
 		String missionId = mission.getMissionId();
-		List<Mission> list = new ArrayList<>();
+		List<MainPage> list = new ArrayList<>();
 		list = missionService.getMission(userId);		
 
 		Condition condition = userService.readConditionById(userId);	
@@ -130,14 +131,14 @@ public class MissionRestController {
 		
 		StringTokenizer st = new StringTokenizer(result, "\n");
 		
-		mission = new Mission(condition.getUserId(), missionId, st.nextToken(), st.nextToken(), false);
+		mission = new MainPage(condition.getUserId(), missionId, st.nextToken(), st.nextToken(), false);
 		missionService.modifyMissionById(mission);
 
 		if (response == null || response.getChoices() == null || response.getChoices().isEmpty()||missionService.modifyMissionById(mission)==0) {
 			return new ResponseEntity<>("미션생성에 실패하였습니다", HttpStatus.BAD_GATEWAY);
 		}
 
-		return new ResponseEntity<Mission>(HttpStatus.OK);	
+		return new ResponseEntity<MainPage>(HttpStatus.OK);	
 	}
 
 	// 미션 새로 만들기(새로 만들기 버튼을 누르면 기존 데이터를 삭제함)
@@ -145,7 +146,7 @@ public class MissionRestController {
 	public ResponseEntity<?> deleteMission(@RequestBody String userId) {
 
 		// 기존에 미션이 있는지 없는지 탐색 후 있으면 delete 함.
-		List<Mission> list = missionService.getMission(userId);
+		List<MainPage> list = missionService.getMission(userId);
 		if (list != null) {
 			boolean result = missionService.removeMission(userId);
 			return new ResponseEntity<>(result, HttpStatus.OK);
@@ -154,7 +155,8 @@ public class MissionRestController {
 	}
 
 	// 매일 자정에 mission Check 모두 false로 변경
-	@Scheduled(cron = "0 0 0 * * ?")
+	// 달력과 겹치지 않기 위해 매 자정 3초 후에 실행
+	@Scheduled(cron = "3 0 0 * * ?")
 	public void doResetMissionCheck() {		
         userService.doRandomNumber();
 	}

@@ -7,7 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.meer.model.dao.MissionDao;
-import com.meer.model.dto.Mission;
+import com.meer.model.dto.MainPage;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,19 +18,19 @@ public class MissionServiceImpl implements MissionService{
 	private final MissionDao missionDao;
 	
 	@Override
-	public int makeMission(Mission mission) {		
-		return missionDao.insertMission(mission);
+	public int makeMission(MainPage mainPage) {		
+		return missionDao.insertMission(mainPage);
 		
 		
 	}
 
 	@Override
-	public List<Mission> getMission(String userId) {		
+	public List<MainPage> getMission(String userId) {		
 		return missionDao.selectMission(userId);
 	}
 
 	@Override
-	public Mission getMissionById(String userId, String id) {
+	public MainPage getMissionById(String userId, String id) {
 		Map<String, String> map = new HashMap<>();
 		map.put("userId", userId);
 		map.put("id", id);		
@@ -43,8 +43,8 @@ public class MissionServiceImpl implements MissionService{
 	}
 
 	@Override
-	public int modifyMissionById(Mission mission) {
-		return missionDao.updateMissionById(mission);
+	public int modifyMissionById(MainPage mainPage) {
+		return missionDao.updateMissionById(mainPage);
 	}
 
 	@Override

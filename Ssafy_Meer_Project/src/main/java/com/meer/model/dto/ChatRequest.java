@@ -3,9 +3,11 @@ package com.meer.model.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
+@Schema(description = "ChatRequest DTO")
 public class ChatRequest {
 
     private String model;

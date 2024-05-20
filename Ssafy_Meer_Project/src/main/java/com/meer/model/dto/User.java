@@ -1,7 +1,15 @@
 package com.meer.model.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.List;
 
+import com.meer.model.dto.ChatResponse.Choice;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor
 @Schema(description = "User DTO")
 public class User {
 	private String userId;
@@ -10,11 +18,6 @@ public class User {
 	private String fortuneNumber;
 	private String sentenceNumber;
 	private boolean fortuneCheck;
-
-	
-	public User() {
-		
-	}
 
 	public String getUserId() {
 		return userId;

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meer.model.dto.User;
+import com.meer.model.service.CalendarService;
 import com.meer.model.service.UserService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,14 +24,16 @@ import lombok.extern.slf4j.Slf4j;
 public class UserRestController {
 
 	private final UserService userService;
+	private final CalendarService calendarService;
 
 	// user 회원가입	
 	@PostMapping("/user/signup")
 	public ResponseEntity<?> write(@RequestBody User user) {
+		String userId = user.getUserId();
+		// user DB에 유저 추가
 		userService.writeUser(user);
-		
-		
-		
+		// calendar DB에 해당 유저의 이름으로 된 달력 db추가
+		calendarService.makeCalendarLayout(userId);
 		return new ResponseEntity<User>(user, HttpStatus.CREATED);
 	}
 
@@ -82,5 +85,6 @@ public class UserRestController {
 		System.out.println("FortuneNumber, SentenceNumber 업데이트 되었습니다");
         userService.doRandomNumber();
 	}
-
+	
+	
 }

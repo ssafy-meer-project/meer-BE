@@ -45,4 +45,10 @@
 		mission_condition3 = #{condition3}
 		WHERE user_id = #{userId}
 	</update>
+	
+	<select id = "checkFortune" parameterType="String" resultType="boolean">
+		SELECT fortune_check 
+		FROM user
+		WHERE user_id = #{userId}
+	</select>
 </mapper>
