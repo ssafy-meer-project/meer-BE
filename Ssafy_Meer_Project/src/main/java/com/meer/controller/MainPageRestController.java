@@ -29,6 +29,7 @@ import com.meer.model.service.MissionService;
 import com.meer.model.service.UserService;
 import com.meer.model.service.WordService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -58,14 +59,15 @@ public class MainPageRestController {
 	private final WordService wordService;
 
 	// 메인페이지 접속
-	@GetMapping("/")
+	@GetMapping("")
+	@Operation(summary = "메인페이지 로드API", description = "유저ID를 받아서 미션목록과 글귀를 반환함")
 	public ResponseEntity<?> enterMainPage(@RequestParam("userId") String userId){
 		MainPage mainPage = new MainPage();		
 		mainPage.setMissionList(missionService.getMission(userId));
 		mainPage.setSentenceWord(wordService.readSentence(userId));
-		if (mainPage.getMissionList() == null || mainPage.getMissionList().size() < 0) {
-			return new ResponseEntity<>("미션이 없습니다.", HttpStatus.NO_CONTENT);
-		}
+//		if (mainPage.getMissionList() == null || mainPage.getMissionList().size() < 0) {
+//			return new ResponseEntity<>("미션이 없습니다.", HttpStatus.NO_CONTENT);
+//		}
 		return new ResponseEntity<MainPage>(mainPage, HttpStatus.OK);
 	}
 	
@@ -98,9 +100,9 @@ public class MainPageRestController {
 			
 			Mission mission = new Mission();
 			mission.setUserId(userId);
-			mission.setMissionId(st.nextToken());
-			mission.setMissionTitle(st.nextToken());
-			mission.setMissionContent(st.nextToken());
+			mission.setMissionId(st.nextToken().trim());
+			mission.setMissionTitle(st.nextToken().trim());
+			mission.setMissionContent(st.nextToken().trim());
 			mission.setMissionCheck(false);
 			missionService.makeMission(mission);
 			list.add(mission);
@@ -157,22 +159,37 @@ public class MainPageRestController {
 
 	// 미션 새로 만들기(새로 만들기 버튼을 누르면 기존 데이터를 삭제함)
 	@DeleteMapping("/mission")
-	public ResponseEntity<?> deleteMission(@RequestBody String userId) {
-
+	public ResponseEntity<?> deleteMission(@RequestParam String userId) {		
 		// 기존에 미션이 있는지 없는지 탐색 후 있으면 delete 함.
 		List<Mission> list = missionService.getMission(userId);
-		if (list != null) {
-			boolean result = missionService.removeMission(userId);
-			return new ResponseEntity<>(result, HttpStatus.OK);
+		if (list != null) {			
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
 		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
+	
+	// 미션 체크 T/F
+	@PutMapping("/mission/check")
+	public ResponseEntity<?> updateMissionCheck(@RequestBody Mission mission){
+		Mission tmp = missionService.getMissionById(mission.getUserId(), mission.getMissionId());
+		mission.setMissionCheck(tmp.isMissionCheck());
+		
+		int result = missionService.modifyMissionCheck(mission);
+		tmp = missionService.getMissionById(mission.getUserId(), mission.getMissionId());
+		mission.setMissionCheck(tmp.isMissionCheck());
+		boolean check = mission.isMissionCheck();
+		if(result>=1) {
+			return new ResponseEntity<>(check, HttpStatus.OK);
+		}
+		return new ResponseEntity<>("갱신 실패", HttpStatus.BAD_GATEWAY);
+	}
+	
 
 	// 매일 자정에 mission Check 모두 false로 변경
 	// 달력과 겹치지 않기 위해 매 자정 3초 후에 실행
 	@Scheduled(cron = "3 0 0 * * ?")
 	public void doResetMissionCheck() {		
-        userService.doRandomNumber();
+		missionService.resetMissionCheck();
 	}
 
 	

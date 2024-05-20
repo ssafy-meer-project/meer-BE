@@ -32,6 +32,21 @@
 		WHERE user_id = #{userId} AND mission_id=#{missionId}
 	</update>
 	
+	<update id="updateMissionCheck" parameterType="Mission">
+		UPDATE mission
+		<set>
+			<choose>
+				<when test="missionCheck == true">
+					mission_check = false				
+				</when>	
+				<when test="missionCheck == false">
+					mission_check = true
+				</when>
+			</choose>
+		</set>
+		WHERE user_id = #{userId} AND mission_id = #{missionId}
+	</update>
+	
 	<update id="resetMissionCheck">	
 		UPDATE mission
 		SET mission_check = false	

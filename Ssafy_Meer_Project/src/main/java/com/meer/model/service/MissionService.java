@@ -16,6 +16,9 @@ public interface MissionService {
 	
 	public int modifyMissionById(Mission mission);
 
+	public int modifyMissionCheck(Mission mission);
+	
 	public int resetMissionCheck();
+
 	
 }

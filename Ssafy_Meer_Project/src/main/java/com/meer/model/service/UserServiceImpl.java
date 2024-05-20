@@ -3,6 +3,7 @@ package com.meer.model.service;
 import org.springframework.stereotype.Service;
 
 import com.meer.model.dao.UserDao;
+import com.meer.model.dto.ChangePassword;
 import com.meer.model.dto.Condition;
 import com.meer.model.dto.User;
 
@@ -58,5 +59,20 @@ public class UserServiceImpl implements UserService {
 	public User findPasswordById(String userId) {
 		return userDao.findPassword(userId);
 		
+	}
+
+	@Override
+	public int modifyPassword(ChangePassword changePassword) {		
+		return userDao.updatePassword(changePassword);
+	}
+
+	@Override
+	public int modifyFortuneCheck(String userId) {
+		return userDao.updateFortuneCheck(userId);
+	}
+
+	@Override
+	public int resetFortuneCheck() {
+		return userDao.resetFortuneCheck();
 	}
 }

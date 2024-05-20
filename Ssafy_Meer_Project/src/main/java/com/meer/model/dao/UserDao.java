@@ -1,5 +1,6 @@
 package com.meer.model.dao;
 
+import com.meer.model.dto.ChangePassword;
 import com.meer.model.dto.Condition;
 import com.meer.model.dto.User;
 
@@ -21,5 +22,11 @@ public interface UserDao {
 	
 	public boolean checkFortune(String userId);
 	
+	public int updateFortuneCheck(String userId);
+	
+	public int resetFortuneCheck();
+	
 	public User findPassword(String userId);
+	
+	public int updatePassword(ChangePassword changePassword);
 }

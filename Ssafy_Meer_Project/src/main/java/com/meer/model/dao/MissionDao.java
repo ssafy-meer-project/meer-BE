@@ -17,5 +17,7 @@ public interface MissionDao {
 
 	public int updateMissionById(Mission mission);
 
+	public int updateMissionCheck(Mission mission);
+	
 	public int resetMissionCheck();
 }

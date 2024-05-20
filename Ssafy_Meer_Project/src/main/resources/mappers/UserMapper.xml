@@ -52,9 +52,28 @@
 		WHERE user_id = #{userId}
 	</select>
 	
+	<update id="updateFortuneCheck" parameterType="String">
+		UPDATE user
+		SET fortune_check = true
+		WHERE user_id = #{userId}
+	</update>
+	
+	<update id="resetFortuneCheck">
+		UPDATE user
+		SET fortune_check = false
+	</update>
+	
+	
+	
 	<select id="findPassword" parameterType="String" resultType="User">
 		SELECT *
 		FROM user
 		WHERE user_id = #{userId}
 	</select>
+	
+	<update id="updatePassword" parameterType="ChangePassword">
+		UPDATE user
+		SET user_password = #{newPassword}
+		WHERE user_id = #{userId}
+	</update>
 </mapper>

@@ -1,16 +1,22 @@
 package com.meer.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.meer.model.dto.ChangePassword;
 import com.meer.model.dto.User;
 import com.meer.model.service.CalendarService;
 import com.meer.model.service.UserService;
+import com.meer.util.JwtUtil;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +32,36 @@ public class UserRestController {
 	private final UserService userService;
 	private final CalendarService calendarService;
 
-	// user 회원가입	
+	//jwt TEst
+	
+	private final JwtUtil jwtUtil;
+	
+	//UserService 우리 없어요 ㅠ
+	
+	@PostMapping("/login-test")
+	public ResponseEntity<Map<String, Object>> loginTest(@RequestBody User user){
+		HttpStatus status = null;
+		Map<String, Object> result = new HashMap<>();
+		System.out.println(user.getUserId());
+		//서비스 -> 다오 -> DB 
+		//엄청난 검증을 끝내고 온거다.
+		User tmp = userService.login(user);
+		if(tmp.getUserId() != null) {
+			//토큰 만들어서 줘야되는데?
+			result.put("message", "SUCCESS");
+			result.put("access-token", jwtUtil.createToken(user.getUserId()));
+			//id도 같이 넘겨주면 번거로운 작업을 할 필요는 없어
+			status = HttpStatus.ACCEPTED;
+		}else {
+			result.put("message", "FAIL");
+			status = HttpStatus.NO_CONTENT;
+		}
+		
+		return new ResponseEntity<>(result, status);
+	}
+	
+	
+	// user 회원가입
 	@PostMapping("/signup")
 	public ResponseEntity<?> write(@RequestBody User user) {
 		String userId = user.getUserId();
@@ -40,56 +75,75 @@ public class UserRestController {
 	// ID 중복확인
 	// ID가 중복으로 확인되면 409 error를 보냄
 	@PostMapping("/id")
-	public ResponseEntity<Boolean> checkId(@RequestBody String userId){
-		if(userService.readUserById(userId)==null) {
-			return ResponseEntity.ok(true);			
-		}
-		return ResponseEntity.ok(false);
-	}
-	
-	// nickname 중복확인
-	// nickname이 중복으로 확인되면 409 error를 보냄
-	@PostMapping("/nickname")
-	public ResponseEntity<?> checkNickname(@RequestBody String userNickname){
-		if(userService.readUserByNickname(userNickname)==null) {
-			return ResponseEntity.ok(true);			
-		}
-		return ResponseEntity.ok(false);
-	}
-	
-	//로그인
-	@PostMapping("/login")
-	public ResponseEntity<?> login(@RequestBody User user){
-		User result = userService.login(user);
-		if(result!=null) {
+	public ResponseEntity<Boolean> checkId(@RequestBody Map<String, String> map) {
+		String userId = map.get("userId");
+		if (userService.readUserById(userId) == null) {
 			return ResponseEntity.ok(true);
 		}
 		return ResponseEntity.ok(false);
 	}
 
+	// nickname 중복확인
+	// nickname이 중복으로 확인되면 409 error를 보냄
+	@PostMapping("/nickname")
+	public ResponseEntity<?> checkNickname(@RequestBody Map<String, String> map) {
+		String userNickname = map.get("userNickname");
+		if (userService.readUserByNickname(userNickname) == null) {
+			return ResponseEntity.ok(true);
+		}
+		return ResponseEntity.ok(false);
+	}
+
+	// 로그인
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody User user) {
+		User result = userService.login(user);
+		if (result != null) {
+			return ResponseEntity.ok(true);
+		}
+		return ResponseEntity.ok(false);
+	}
 
 	// fortuneNumber, sentenceNumber 새롭게 갱신
 	// 매일 밤 12시에 실행되는 메서드
 	@Scheduled(cron = "0 0 0 * * ?")
 	public void doRandomNumber() {
 		System.out.println("FortuneNumber, SentenceNumber 업데이트 되었습니다");
-        userService.doRandomNumber();
+		userService.doRandomNumber();
 	}
-	
-	
+
+	// 계정 찾기
+	@PostMapping("find-id")
+	public ResponseEntity<?> findUser(@RequestBody Map<String, String> map) {
+		String userNickname = map.get("userNickname");
+		System.out.println(userNickname);
+		User user = userService.readUserByNickname(userNickname);
+		if (user == null) {
+			return new ResponseEntity<>("닉네임을 다시 확인해주세요.", HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(user.getUserId(), HttpStatus.OK);
+	}
+
 	// 비밀번호 찾기
-	@PostMapping("findPw")
-	public ResponseEntity<?> findPassword(@RequestBody String userId) {
+	@PostMapping("find-pw")
+	public ResponseEntity<?> findPassword(@RequestBody Map<String, String> map) {
+		String userId = map.get("userId");
 		User user = userService.findPasswordById(userId);
-		if(user == null ) {
+		if (user == null) {
 			return new ResponseEntity<>("해당하는 아이디가 없습니다", HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<User>(user, HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
-	
-	
-	
-	
-	
+
+	// 비밀번호 변경
+	@PutMapping("change-pw")
+	public ResponseEntity<?> changePassword(@RequestBody ChangePassword changePassword) {
+		int result = userService.modifyPassword(changePassword);
+		if(result == 1) {
+			return new ResponseEntity<>("비밀번호가 변경되었습니다.", HttpStatus.OK);			
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
+		}
+	}
+
 }

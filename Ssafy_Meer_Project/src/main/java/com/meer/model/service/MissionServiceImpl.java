@@ -30,10 +30,10 @@ public class MissionServiceImpl implements MissionService{
 	}
 
 	@Override
-	public Mission getMissionById(String userId, String id) {
+	public Mission getMissionById(String userId, String missionId) {
 		Map<String, String> map = new HashMap<>();
 		map.put("userId", userId);
-		map.put("id", id);		
+		map.put("missionId", missionId);		
 		return missionDao.selectMissionById(map);
 	}
 
@@ -50,5 +50,10 @@ public class MissionServiceImpl implements MissionService{
 	@Override
 	public int resetMissionCheck(){
 		return missionDao.resetMissionCheck();
+	}
+
+	@Override
+	public int modifyMissionCheck(Mission mission) {		
+		return missionDao.updateMissionCheck(mission);
 	}
 }
