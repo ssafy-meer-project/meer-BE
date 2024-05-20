@@ -20,4 +20,6 @@ public interface UserService {
 	public int modifyMissionCondition(Condition condition);
 	
 	public boolean readFortuneCheck(String userId);
+	
+	public User findPasswordById(String userId);
 }

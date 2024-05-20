@@ -20,4 +20,6 @@ public interface UserDao {
 	public int updateMissionCondition(Condition condition);
 	
 	public boolean checkFortune(String userId);
+	
+	public User findPassword(String userId);
 }

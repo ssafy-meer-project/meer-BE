@@ -53,4 +53,10 @@ public class UserServiceImpl implements UserService {
 	public boolean readFortuneCheck(String userId) {		
 		return userDao.checkFortune(userId);
 	}
+
+	@Override
+	public User findPasswordById(String userId) {
+		return userDao.findPassword(userId);
+		
+	}
 }

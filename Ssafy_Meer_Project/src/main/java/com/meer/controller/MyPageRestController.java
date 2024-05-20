@@ -8,11 +8,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.meer.model.dto.MyPage;
+import com.meer.model.dto.User;
 import com.meer.model.service.CalendarService;
 import com.meer.model.service.UserService;
 import com.meer.model.service.WordService;
@@ -54,7 +57,7 @@ public class MyPageRestController {
 		calendarService.resetCalendar();
 	}
 
-	@GetMapping("")
+	@GetMapping("/")
 	@Operation(summary = "Mypage가 로드됐을 때 보여지는 정보", description = "mypage를 접속하는 순간 실행됨. calendar, fotuneCheck, fortuneWord값이 넘겨짐")
 	public ResponseEntity<?> getCalendar(@RequestParam("userId") String userId) {
 		MyPage mypage = new MyPage();
@@ -92,4 +95,14 @@ public class MyPageRestController {
 
 		return new ResponseEntity<MyPage>(mypage, HttpStatus.OK);
 	}	
+	
+//	@PutMapping("chagnePw")
+//	public boolean changePw(@RequestBody User user) {
+//		
+//		
+//		return entity;
+//	}
+	
+	
+	
 }

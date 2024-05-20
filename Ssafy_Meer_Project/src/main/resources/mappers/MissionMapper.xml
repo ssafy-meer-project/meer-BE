@@ -4,33 +4,33 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.meer.model.dao.MissionDao">
 
-	<select id="selectMissionById" resultType="MainPage" parameterType="Map">
+	<insert id="insertMission" parameterType="Mission">
+		INSERT INTO mission(user_id, mission_id, mission_title, mission_content)
+		VALUES(#{userId}, #{missionId}, #{missionTitle}, #{missionContent})
+	</insert>
+	
+	<select id="selectMission" resultType="Mission" parameterType="String">
+		SELECT * from mission
+		WHERE user_id = #{userId}
+	</select>
+	
+	<select id="selectMissionById" resultType="Mission" parameterType="Map">
 		SELECT * from mission
 		WHERE user_id = #{userId} AND mission_id = #{missionId}
 	</select>	
 
-	<select id="selectMission" resultType="MainPage" parameterType="String">
-		SELECT * from mission
+	<delete id="deleteMission" parameterType="String">
+		DELETE FROM mission
 		WHERE user_id = #{userId}
-	</select>
-
-	<insert id="insertMission" parameterType="MainPage">
-		INSERT INTO mission(user_id, mission_id, mission_title, mission_content)
-		VALUES(#{userId}, #{missionId}, #{missionTitle}, #{missionContent})
-	</insert>
-
-	<update id="updateMissionById" parameterType="MainPage">
+	</delete>
+	
+	<update id="updateMissionById" parameterType="Mission">
 		UPDATE mission
 		SET mission_title = #{missionTitle},
 		mission_content = #{missionContent},
 		mission_check = #{missionCheck}
 		WHERE user_id = #{userId} AND mission_id=#{missionId}
 	</update>
-	
-	<delete id="deleteMission" parameterType="String">
-		DELETE FROM mission
-		WHERE user_id = #{userId}
-	</delete>
 	
 	<update id="resetMissionCheck">	
 		UPDATE mission

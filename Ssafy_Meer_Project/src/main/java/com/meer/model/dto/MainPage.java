@@ -12,52 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Schema(description = "MainPage DTO")
 public class MainPage {
-	private String userId;
-	private String missionId;
-	private String missionTitle;
-	private String missionContent;
-	private boolean missionCheck;
+	private List<Mission> missionList;	
 	private String sentenceWord;
-		
-	public String getUserId() {
-		return userId; 
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-
-	public String getMissionId() {
-		return missionId;
-	}
-
-	public void setMissionId(String missionId) {
-		this.missionId = missionId;
-	}
-
-	public String getMissionTitle() {
-		return missionTitle;
-	}
-
-	public void setMissionTitle(String missionTitle) {
-		this.missionTitle = missionTitle;
-	}
-
-	public String getMissionContent() {
-		return missionContent;
-	}
-
-	public void setMissionContent(String missionContent) {
-		this.missionContent = missionContent;
-	}
-
-	public boolean isMissionCheck() {
-		return missionCheck;
-	}
-
-	public void setMissionCheck(boolean missionCheck) {
-		this.missionCheck = missionCheck;
-	}
 
 	public String getSentenceWord() {
 		return sentenceWord;
@@ -66,5 +22,13 @@ public class MainPage {
 	public void setSentenceWord(String sentenceWord) {
 		this.sentenceWord = sentenceWord;
 	}
+
+	public List<Mission> getMissionList() {
+		return missionList;
+	}
+
+	public void setMissionList(List<Mission> missionList) {
+		this.missionList = missionList;
+	}	
 
 }

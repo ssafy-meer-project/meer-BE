@@ -2,19 +2,19 @@ package com.meer.model.service;
 
 import java.util.List;
 
-import com.meer.model.dto.MainPage;
+import com.meer.model.dto.Mission;
 
 public interface MissionService {
 	
-	public int makeMission(MainPage mainPage);
+	public int makeMission(Mission mission);
 	
-	public List<MainPage> getMission(String userId);
+	public List<Mission> getMission(String userId);
 
-	public MainPage getMissionById(String userId, String id);
+	public Mission getMissionById(String userId, String id);
 	
 	public boolean removeMission(String userId);
 	
-	public int modifyMissionById(MainPage mainPage);
+	public int modifyMissionById(Mission mission);
 
 	public int resetMissionCheck();
 	

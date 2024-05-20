@@ -24,10 +24,11 @@ import com.meer.model.dto.ChatRequest;
 import com.meer.model.dto.ChatResponse;
 import com.meer.model.dto.Condition;
 import com.meer.model.dto.MainPage;
+import com.meer.model.dto.Mission;
 import com.meer.model.service.MissionService;
 import com.meer.model.service.UserService;
+import com.meer.model.service.WordService;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,10 +55,27 @@ public class MainPageRestController {
 
 	private final MissionService missionService;
 	private final UserService userService;
+	private final WordService wordService;
 
+	// 메인페이지 접속
+	@GetMapping("/")
+	public ResponseEntity<?> enterMainPage(@RequestParam("userId") String userId){
+		MainPage mainPage = new MainPage();		
+		mainPage.setMissionList(missionService.getMission(userId));
+		mainPage.setSentenceWord(wordService.readSentence(userId));
+		if (mainPage.getMissionList() == null || mainPage.getMissionList().size() < 0) {
+			return new ResponseEntity<>("미션이 없습니다.", HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<MainPage>(mainPage, HttpStatus.OK);
+	}
+	
+	
 	// 미션 만들기
 	@PostMapping("/mission")
 	public ResponseEntity<?> makeMission(@RequestBody Condition condition) {
+		
+		String userId = condition.getUserId();
+		
 		// 프롬프트 작성부
 		String prompt = "너는 이제부터 사람들의 고민을 해결해주는 상담사야. 누군가 너에게 상담을 요청해왔어. 이 사람의 "+condition.getSubject() + "을 개선시킬 데일리 미션을 5개 만들려고 해. " + "세부조건은 다음과 같아. 1. 행동양식은 "
 				+ condition.getCondition1() + "이야. 2. 미션을 하는 공간은 " + condition.getCondition2() + "이야. 3. 미션을 하는 시간대는 "
@@ -75,39 +93,35 @@ public class MainPageRestController {
 		StringTokenizer st = new StringTokenizer(result, "\n");
 
 		// mission DB 에 넣는과정
-		List<MainPage> list = new ArrayList<>();
+		List<Mission> list = new ArrayList<>();
 		for (int i = 0; i < 5; i++) {
-			MainPage mainPage = new MainPage(condition.getUserId(), st.nextToken(), st.nextToken(), st.nextToken(), false);
-			missionService.makeMission(mainPage);
-			list.add(mainPage);
+			
+			Mission mission = new Mission();
+			mission.setUserId(userId);
+			mission.setMissionId(st.nextToken());
+			mission.setMissionTitle(st.nextToken());
+			mission.setMissionContent(st.nextToken());
+			mission.setMissionCheck(false);
+			missionService.makeMission(mission);
+			list.add(mission);
 		}
 
 		if (response == null || response.getChoices() == null || response.getChoices().isEmpty()) {
 			return new ResponseEntity<>("미션생성에 실패하였습니다", HttpStatus.BAD_GATEWAY);
 		}
 
-		return new ResponseEntity<List<MainPage>>(list, HttpStatus.OK);
+		return new ResponseEntity<List<Mission>>(list, HttpStatus.OK);
 	}
 
-	// 미션 조회 & 글귀 조회
-	@GetMapping("/mission")
-	@Schema
-	public ResponseEntity<?> getMission(@RequestParam("userId") String userId) {
-		List<MainPage> list = new ArrayList<>();
-		list = missionService.getMission(userId);
-		if (list == null || list.size() < 0) {
-			return new ResponseEntity<>("미션이 없습니다.", HttpStatus.NO_CONTENT);
-		}
-		return new ResponseEntity<List<MainPage>>(list, HttpStatus.OK);
-	}
+
 
 	// 미션 개별 업데이트
 	@PutMapping("/mission")
-	public ResponseEntity<?> updateMission(@RequestBody MainPage mission) {				
+	public ResponseEntity<?> updateMission(@RequestBody Mission mission) {				
 		String userId = mission.getUserId();	
 
 		String missionId = mission.getMissionId();
-		List<MainPage> list = new ArrayList<>();
+		List<Mission> list = new ArrayList<>();
 		list = missionService.getMission(userId);		
 
 		Condition condition = userService.readConditionById(userId);	
@@ -131,14 +145,14 @@ public class MainPageRestController {
 		
 		StringTokenizer st = new StringTokenizer(result, "\n");
 		
-		mission = new MainPage(condition.getUserId(), missionId, st.nextToken(), st.nextToken(), false);
+		mission = new Mission(condition.getUserId(), missionId, st.nextToken(), st.nextToken(), false);
 		missionService.modifyMissionById(mission);
 
 		if (response == null || response.getChoices() == null || response.getChoices().isEmpty()||missionService.modifyMissionById(mission)==0) {
 			return new ResponseEntity<>("미션생성에 실패하였습니다", HttpStatus.BAD_GATEWAY);
 		}
 
-		return new ResponseEntity<MainPage>(HttpStatus.OK);	
+		return new ResponseEntity<Mission>(mission, HttpStatus.OK);	
 	}
 
 	// 미션 새로 만들기(새로 만들기 버튼을 누르면 기존 데이터를 삭제함)
@@ -146,7 +160,7 @@ public class MainPageRestController {
 	public ResponseEntity<?> deleteMission(@RequestBody String userId) {
 
 		// 기존에 미션이 있는지 없는지 탐색 후 있으면 delete 함.
-		List<MainPage> list = missionService.getMission(userId);
+		List<Mission> list = missionService.getMission(userId);
 		if (list != null) {
 			boolean result = missionService.removeMission(userId);
 			return new ResponseEntity<>(result, HttpStatus.OK);

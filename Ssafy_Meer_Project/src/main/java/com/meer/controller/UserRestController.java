@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/api-user")
+@RequestMapping("/user")
 @Tag(name = "userRestController", description = "user info")
 public class UserRestController {
 
@@ -27,7 +27,7 @@ public class UserRestController {
 	private final CalendarService calendarService;
 
 	// user 회원가입	
-	@PostMapping("/user/signup")
+	@PostMapping("/signup")
 	public ResponseEntity<?> write(@RequestBody User user) {
 		String userId = user.getUserId();
 		// user DB에 유저 추가
@@ -39,9 +39,9 @@ public class UserRestController {
 
 	// ID 중복확인
 	// ID가 중복으로 확인되면 409 error를 보냄
-	@PostMapping("/user/id")
-	public ResponseEntity<Boolean> checkId(@RequestBody User user){
-		if(userService.readUserById(user.getUserId())==null) {
+	@PostMapping("/id")
+	public ResponseEntity<Boolean> checkId(@RequestBody String userId){
+		if(userService.readUserById(userId)==null) {
 			return ResponseEntity.ok(true);			
 		}
 		return ResponseEntity.ok(false);
@@ -49,16 +49,16 @@ public class UserRestController {
 	
 	// nickname 중복확인
 	// nickname이 중복으로 확인되면 409 error를 보냄
-	@PostMapping("/user/nickname")
-	public ResponseEntity<?> checkNickname(@RequestBody User user){
-		if(userService.readUserByNickname(user.getUserNickname())==null) {
+	@PostMapping("/nickname")
+	public ResponseEntity<?> checkNickname(@RequestBody String userNickname){
+		if(userService.readUserByNickname(userNickname)==null) {
 			return ResponseEntity.ok(true);			
 		}
 		return ResponseEntity.ok(false);
 	}
 	
 	//로그인
-	@PostMapping("/user")
+	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody User user){
 		User result = userService.login(user);
 		if(result!=null) {
@@ -66,17 +66,7 @@ public class UserRestController {
 		}
 		return ResponseEntity.ok(false);
 	}
-	
-	//
-	
-//	@GetMapping("/user/{id}")
-//	public ResponseEntity<?> getMethodName(@PathVariable("id") String userId) {
-//		User user = userService.readUser(userId);
-//		if (user == null) {
-//			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//		}
-//		return new ResponseEntity<>(user, HttpStatus.OK);
-//	}
+
 
 	// fortuneNumber, sentenceNumber 새롭게 갱신
 	// 매일 밤 12시에 실행되는 메서드
@@ -85,6 +75,21 @@ public class UserRestController {
 		System.out.println("FortuneNumber, SentenceNumber 업데이트 되었습니다");
         userService.doRandomNumber();
 	}
+	
+	
+	// 비밀번호 찾기
+	@PostMapping("findPw")
+	public ResponseEntity<?> findPassword(@RequestBody String userId) {
+		User user = userService.findPasswordById(userId);
+		if(user == null ) {
+			return new ResponseEntity<>("해당하는 아이디가 없습니다", HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<User>(user, HttpStatus.OK);
+	}
+	
+	
+	
+	
 	
 	
 }
