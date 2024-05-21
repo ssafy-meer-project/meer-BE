@@ -30,5 +30,4 @@ public interface UserDao {
 	
 	public int updatePassword(ChangePassword changePassword);
 	
-	public int resetChangeCount();
 }

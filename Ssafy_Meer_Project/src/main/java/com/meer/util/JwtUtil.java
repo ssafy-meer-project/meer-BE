@@ -47,16 +47,4 @@ public class JwtUtil {
 			return e.getMessage();
 		}
 	}
-//	public static void main(String[] args) {
-//		JwtUtil a = new JwtUtil("Asdfasdkflkkmv;lkmv;alskdmf;lkawmeflkmsdvlkmasdjanflkjwenflkjw");
-//		System.out.println(a);
-//		
-//		String token = a.createToken("ssafy123");
-//		
-//		String b = Jwts.parser().verifyWith(Keys.hmacShaKeyFor(("Asdfasdkflkkmv;lkmv;alskdmf;lkawmeflkmsdvlkmasdjanflkjwenflkjw").
-//				getBytes(StandardCharsets.UTF_8))).build().parseSignedClaims(token).getBody().getSubject();
-//		System.out.println(token);
-//		System.out.println(b);
-//	}
-
 }
