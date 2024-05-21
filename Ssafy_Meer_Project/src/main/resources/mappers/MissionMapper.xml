@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.meer.model.dao.MissionDao">
+
+	<insert id="insertMission" parameterType="Mission">
+		INSERT INTO mission(user_id, mission_id, mission_title, mission_content)
+		VALUES(#{userId}, #{missionId}, #{missionTitle}, #{missionContent})
+	</insert>
+	
+	<select id="selectMission" resultType="Mission" parameterType="String">
+		SELECT * from mission
+		WHERE user_id = #{userId}
+	</select>
+	
+	<select id="selectMissionById" resultType="Mission" parameterType="Map">
+		SELECT * from mission
+		WHERE user_id = #{userId} AND mission_id = #{missionId}
+	</select>	
+
+	<delete id="deleteMission" parameterType="String">
+		DELETE FROM mission
+		WHERE user_id = #{userId}
+	</delete>
+	
+	<update id="updateMissionById" parameterType="Mission">
+		UPDATE mission
+		SET mission_title = #{missionTitle},
+		mission_content = #{missionContent},
+		mission_check = #{missionCheck}
+		WHERE user_id = #{userId} AND mission_id=#{missionId}
+	</update>
+	
+	<update id="updateMissionCheck" parameterType="Mission">
+		UPDATE mission
+		<set>
+			<choose>
+				<when test="missionCheck == true">
+					mission_check = false				
+				</when>	
+				<when test="missionCheck == false">
+					mission_check = true
+				</when>
+			</choose>
+		</set>
+		WHERE user_id = #{userId} AND mission_id = #{missionId}
+	</update>
+	
+	<update id="resetMissionCheck">	
+		UPDATE mission
+		SET mission_check = false	
+	</update>
+	
+	<update id="updateChangeCount">
+		UPDATE user
+		SET change_count = #{changeCount}
+		WHERE user_id = #{userId}
+	</update>
+	
+	<update id="resetChangeCount">
+		UPDATE user
+		SET change_count = 10
+	</update>
+	
+</mapper>

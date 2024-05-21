@@ -7,7 +7,6 @@ USE ssafy_meer_project;
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS calendar;
 DROP TABLE IF EXISTS mission;
-DROP TABLE IF EXISTS mission_check;
 DROP TABLE IF EXISTS fortune;
 DROP TABLE IF EXISTS sentence;
 
@@ -15,12 +14,15 @@ CREATE TABLE IF NOT EXISTS user(
 user_id VARCHAR(40) NOT NULL PRIMARY KEY,
 user_password VARCHAR(40) NOT NULL,
 user_nickname VARCHAR(40) NOT NULL,
-fortune_number int NOT NULL DEFAULT (RAND()*100 %10), -- 포츈쿠키가 10개라는 가정하에 %10으로 작성
-sentence_number int NOT NULL DEFAULT (RAND()*100 %10) -- 명언문구가 10개라는 가정하에 %10으로 작성
+fortune_number int NOT NULL DEFAULT (RAND()*100 %15), -- 포츈쿠키가 15개
+sentence_number int NOT NULL DEFAULT (RAND()*100 %10), -- 명언문구가 10개
+mission_subject VARCHAR(100),
+mission_condition1 VARCHAR(100),
+mission_condition2 VARCHAR(100),
+mission_condition3 VARCHAR(100),
+fortune_check boolean DEFAULT false,
+change_count int default 10
 ) ;
-
-INSERT INTO user(user_id, user_password, user_nickname)
-VALUES("ssafasdf", "12345", "이싸피");
 
 CREATE TABLE IF NOT EXISTS calendar(
 user_id VARCHAR(40) unique,
@@ -60,24 +62,11 @@ REFERENCES user(user_id) ON UPDATE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS mission(
-user_id VARCHAR(40) unique,
-mission1 varchar(100) default '',
-mission2 varchar(100) default '',
-mission3 varchar(100) default '',
-mission4 varchar(100) default '',
-mission5 varchar(100) default '',
-FOREIGN KEY(user_id)
-REFERENCES user(user_id) ON UPDATE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS mission_check(
-user_id VARCHAR(40) unique,
-mission_check1 boolean default false,
-mission_check2 boolean default false,
-mission_check3 boolean default false,
-mission_check4 boolean default false,
-mission_check5 boolean default false,
-fortune_check boolean default false,
+user_id VARCHAR(40),
+mission_id varchar(100) default '',
+mission_title varchar(100) default '',
+mission_content varchar(100) default '',
+mission_check boolean default false,
 FOREIGN KEY(user_id)
 REFERENCES user(user_id) ON UPDATE CASCADE
 );
@@ -92,9 +81,6 @@ sentence_id int PRIMARY KEY AUTO_INCREMENT,
 sentence_word VARCHAR(255),
 sentence_author varchar(100)
 );
-
-DROP TABLE fortune;
-
 
 INSERT INTO fortune(fortune_word)
 VALUES("중요한 것은 꺽이지 않는 마음입니다."),
@@ -125,11 +111,70 @@ VALUES("준비하지 않은 자는 기회가 와도 소용없다.","알렉시스
 ("좋은 희망을 품는 것은 바로 그것을 이룰 수 있는 지름길이다","루터"),
 ("성공은 매일 반복한 작은 노력들의 합이다","로버트 콜리어");
 
-select * from user;
+select *  from user;
+select * from calendar;
 select * from fortune;
+select * from sentence;
+select * from mission;
+delete from mission where user_id="ssafy123@edussafy.com";
 
-select fortune_word from fortune, user
-WHERE user.user_id = "ssafy" and user.fortune_number = fortune.fortune_id;
+-- -- 포츈 및 글귀 번호와 db를 연결하는 sql
+-- select fortune_word from fortune, user
+-- WHERE user.user_id = "ssauserfasdf" and user.fortune_number = fortune.fortune_id;
 
-select sentence_word, sentence_author from sentence, user
-WHERE user.user_id = "ssafy" and user.sentence_number = sentence.sentence_id;
+-- select sentence_word, sentence_author from sentence, user
+-- WHERE user.user_id = "ssafasdf" and user.sentence_number = sentence.sentence_id;
+
+-- -- mission 몇개 했는지 세는 쿼리문
+-- select count(mission_check)
+-- from mission
+-- where user_id="ssafasdf" and mission_check=false;
+
+-- select * from user;
+-- select * from mission;
+
+-- insert into user(user_id, user_password, user_nickname)
+-- values("ssafy", "123", "헬로");
+
+
+-- insert into mission(user_id, mission_id, mission_title, mission_content)
+-- values("ssafy", "1", "title1", "content1"),
+-- ("ssafy", "2", "title2", "content2"),
+-- ("ssafy", "3", "title3", "content3"),
+-- ("ssafy", "4", "title4", "content4"),
+-- ("ssafy", "5", "title5", "content5");
+
+-- update mission
+-- set mission_check = false
+-- where user_id = "ssafasdf" and mission_id="3";
+
+-- select * from calendar;
+
+-- insert into calendar(user_id)
+-- values("ssafasdf"),
+-- ("ssafy");
+
+-- UPDATE calendar c
+-- JOIN (
+--     SELECT user_id, COUNT(*) as completed_missions
+--     FROM mission
+--     WHERE mission_check = true
+--     GROUP BY user_id
+-- ) m ON c.user_id = m.user_id
+-- SET c.day10 = m.completed_missions;
+
+
+-- UPDATE calendar c
+-- JOIN (
+--     SELECT user_id, COUNT(*) as completed_missions
+--     FROM mission
+--     WHERE mission_check = true
+--     GROUP BY user_id
+-- ) m ON c.user_id = m.user_id
+-- SET c.day10 = m.completed_missions;
+
+-- SELECT -1, day1, day2, day3, day4, day5, day6, day7, day8, day9, day10,
+-- 		day11, day12, day13, day14, day15, day16, day17, day18, day19, day20,
+-- 		day21, day22, day23, day24, day25, day26, day27, day28, day29, day30, day31
+-- 		FROM calendar
+-- 		WHERE user_id="ssafy";
