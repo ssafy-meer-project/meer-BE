@@ -16,7 +16,7 @@ public class JwtInterceptor implements HandlerInterceptor {
 	@Autowired
 	private JwtUtil jwtUtil;
 
-	@Override
+	@Override	
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		// 클라이언트는 서버에게 실제 요청을 보내려고 했을 때 사전 요청을 보내서 서버가 현재 효청을 수락할 수 있는 상태인지를 확인하다.

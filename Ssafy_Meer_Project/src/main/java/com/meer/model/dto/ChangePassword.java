@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "MainPage DTO")
+@Schema(description = "비밀번호변경 DTO")
 public class ChangePassword {
 	private String userId;
 	private String userPassword;

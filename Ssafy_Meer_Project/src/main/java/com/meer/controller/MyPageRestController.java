@@ -82,7 +82,7 @@ public class MyPageRestController {
 
 	// Mypage 로드시 화면
 	@GetMapping("")
-	@Operation(summary = "Mypage가 로드됐을 때 보여지는 정보", description = "mypage를 접속하는 순간 실행됨. calendar, fotuneCheck, fortuneWord값이 넘겨짐")
+	@Operation(summary = "Mypage가 로드됐을 때 보여지는 정보", description = "mypage를 접속하는 순간 실행됨. userNickname, calendar, fotuneCheck, fortuneWord값이 넘겨짐")
 	public ResponseEntity<?> getCalendar(@RequestParam("userId") String userId) {		
 		MyPage mypage = new MyPage();
 		List<Integer> list = new ArrayList<>();
@@ -125,6 +125,7 @@ public class MyPageRestController {
 	
 	// 비밀번호 변경
 	@PutMapping("/change-pw")
+	@Operation(summary = "비밀번호 변경 메서드(마이페이지용)", description = "mypage에서 비밀번호 변경할때 실행, 1) 로그인한 유저의 패스워드를 맞게 기입하고 2) 기존 비밀번호와 다른 비밀번호를 등록해야 true 반환")
 	public ResponseEntity<?> changePw(@RequestBody ChangePassword changePassword) {
 		String userId = changePassword.getUserId();
 		String userPassword = changePassword.getUserPassword();
