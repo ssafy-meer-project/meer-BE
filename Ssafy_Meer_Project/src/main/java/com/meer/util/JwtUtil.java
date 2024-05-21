@@ -41,23 +41,22 @@ public class JwtUtil {
 	// userId를 반환하게 되어있음.
 	public String validate(String token) {
 		try {
-			Claims claims = Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getBody();
+			Claims claims = Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getBody();			
 			return claims.getSubject();
 		} catch (Exception e) {
-			System.out.println("이거임?");
 			return e.getMessage();
 		}
 	}
-	public static void main(String[] args) {
-		JwtUtil a = new JwtUtil("Asdfasdkflkkmv;lkmv;alskdmf;lkawmeflkmsdvlkmasdjanflkjwenflkjw");
-		System.out.println(a);
-		
-		String token = a.createToken("ssafy123");
-		
-		String b = Jwts.parser().verifyWith(Keys.hmacShaKeyFor(("Asdfasdkflkkmv;lkmv;alskdmf;lkawmeflkmsdvlkmasdjanflkjwenflkjw").
-				getBytes(StandardCharsets.UTF_8))).build().parseSignedClaims(token).getBody().getSubject();
-		System.out.println(token);
-		System.out.println(b);
-	}
+//	public static void main(String[] args) {
+//		JwtUtil a = new JwtUtil("Asdfasdkflkkmv;lkmv;alskdmf;lkawmeflkmsdvlkmasdjanflkjwenflkjw");
+//		System.out.println(a);
+//		
+//		String token = a.createToken("ssafy123");
+//		
+//		String b = Jwts.parser().verifyWith(Keys.hmacShaKeyFor(("Asdfasdkflkkmv;lkmv;alskdmf;lkawmeflkmsdvlkmasdjanflkjwenflkjw").
+//				getBytes(StandardCharsets.UTF_8))).build().parseSignedClaims(token).getBody().getSubject();
+//		System.out.println(token);
+//		System.out.println(b);
+//	}
 
 }

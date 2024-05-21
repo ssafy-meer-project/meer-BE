@@ -27,8 +27,16 @@ public class JwtInterceptor implements HandlerInterceptor {
 		}
 
 		String token = request.getHeader(HEADER_AUTH);
+		String loginId = jwtUtil.validate(token);
+
+		String userId = request.getParameter("userId");
+		
 		if (token != null) {
-			return true;
+			if (userId.equals(loginId)) {
+				return true;
+			}
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "올바르지 않은 접근입니다.");			
+			return false;
 		}
 		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "유효하지 않은 접근입니다.");
 		return false;
