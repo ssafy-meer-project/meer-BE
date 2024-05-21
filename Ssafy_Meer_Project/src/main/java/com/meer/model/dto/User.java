@@ -18,6 +18,7 @@ public class User {
 	private String fortuneNumber;
 	private String sentenceNumber;
 	private boolean fortuneCheck;
+	private int changeCount;
 
 	public String getUserId() {
 		return userId;
@@ -65,6 +66,14 @@ public class User {
 
 	public void setFortuneCheck(boolean fortuneCheck) {
 		this.fortuneCheck = fortuneCheck;
+	}
+
+	public int getChangeCount() {
+		return changeCount;
+	}
+
+	public void setChangeCount(int changeCount) {
+		this.changeCount = changeCount;
 	}
 	
 	

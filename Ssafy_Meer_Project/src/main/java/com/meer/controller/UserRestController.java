@@ -19,6 +19,7 @@ import com.meer.model.service.UserService;
 import com.meer.util.JwtUtil;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,35 +32,7 @@ public class UserRestController {
 
 	private final UserService userService;
 	private final CalendarService calendarService;
-
-	//jwt TEst
-	
 	private final JwtUtil jwtUtil;
-	
-	//UserService 우리 없어요 ㅠ
-	
-	@PostMapping("/login-test")
-	public ResponseEntity<Map<String, Object>> loginTest(@RequestBody User user){
-		HttpStatus status = null;
-		Map<String, Object> result = new HashMap<>();
-		System.out.println(user.getUserId());
-		//서비스 -> 다오 -> DB 
-		//엄청난 검증을 끝내고 온거다.
-		User tmp = userService.login(user);
-		if(tmp.getUserId() != null) {
-			//토큰 만들어서 줘야되는데?
-			result.put("message", "SUCCESS");
-			result.put("access-token", jwtUtil.createToken(user.getUserId()));
-			//id도 같이 넘겨주면 번거로운 작업을 할 필요는 없어
-			status = HttpStatus.ACCEPTED;
-		}else {
-			result.put("message", "FAIL");
-			status = HttpStatus.NO_CONTENT;
-		}
-		
-		return new ResponseEntity<>(result, status);
-	}
-	
 	
 	// user 회원가입
 	@PostMapping("/signup")
@@ -68,8 +41,8 @@ public class UserRestController {
 		// user DB에 유저 추가
 		userService.writeUser(user);
 		// calendar DB에 해당 유저의 이름으로 된 달력 db추가
-		calendarService.makeCalendarLayout(userId);
-		return new ResponseEntity<User>(user, HttpStatus.CREATED);
+		calendarService.makeCalendarLayout(userId);		
+		return new ResponseEntity<>("가입 성공하였습니다.", HttpStatus.CREATED);
 	}
 
 	// ID 중복확인
@@ -97,11 +70,29 @@ public class UserRestController {
 	// 로그인
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody User user) {
-		User result = userService.login(user);
-		if (result != null) {
-			return ResponseEntity.ok(true);
+		HttpStatus status = null;
+		Map<String, Object> result = new HashMap<>();
+		
+		User tmp = userService.login(user);
+		if(tmp.getUserId() != null) {
+			result.put("message", "SUCCESS");
+			result.put("access-token", jwtUtil.createToken(user.getUserId()));
+			result.put("userId", user.getUserId());
+			status = HttpStatus.ACCEPTED;
+		}else {
+			result.put("message", "FAIL");
+			status = HttpStatus.NO_CONTENT;
 		}
-		return ResponseEntity.ok(false);
+		
+		return new ResponseEntity<>(result, status);		
+	}
+	
+	@PostMapping("/test")
+	public ResponseEntity<?> test(HttpServletRequest request, @RequestBody User user){
+		String token = request.getHeader("access-token");
+		String userId = jwtUtil.validate(token);		
+		System.out.println(userId);
+		return new ResponseEntity<>(userId, HttpStatus.OK);
 	}
 
 	// fortuneNumber, sentenceNumber 새롭게 갱신

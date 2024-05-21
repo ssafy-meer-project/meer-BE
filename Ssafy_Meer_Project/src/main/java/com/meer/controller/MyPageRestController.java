@@ -73,7 +73,7 @@ public class MyPageRestController {
 	public ResponseEntity<?> updateFortuneCheck(@RequestBody Map<String, String> map){
 		String userId = map.get("userId");
 		int result = userService.modifyFortuneCheck(userId);
-		if(result == 1) {
+		if(result == 1) {			
 			User user = userService.readUserById(userId);
 			return new ResponseEntity<>(user.isFortuneCheck(), HttpStatus.OK);
 		}
@@ -109,10 +109,12 @@ public class MyPageRestController {
 				calendar.add(list.get(i));
 			}
 		}
-
+		
+		String userNickname = userService.readUserById(userId).getUserNickname();
 		Boolean fortuneCheck = userService.readFortuneCheck(userId);
 		String fortuneWord = wordService.readFortune(userId);
 
+		mypage.setUserNickname(userNickname);
 		mypage.setCalendar(calendar);
 		mypage.setFortuneCheck(fortuneCheck);
 		mypage.setFortuneWord(fortuneWord);

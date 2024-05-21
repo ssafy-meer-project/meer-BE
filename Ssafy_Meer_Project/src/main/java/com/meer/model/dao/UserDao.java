@@ -29,4 +29,6 @@ public interface UserDao {
 	public User findPassword(String userId);
 	
 	public int updatePassword(ChangePassword changePassword);
+	
+	public int resetChangeCount();
 }

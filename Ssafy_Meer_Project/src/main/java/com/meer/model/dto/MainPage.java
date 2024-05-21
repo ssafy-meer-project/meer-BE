@@ -8,12 +8,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "MainPage DTO")
 public class MainPage {
+
 	private List<Mission> missionList;	
 	private String sentenceWord;
+	private int changeCount;
 
 	public String getSentenceWord() {
 		return sentenceWord;
@@ -29,6 +32,13 @@ public class MainPage {
 
 	public void setMissionList(List<Mission> missionList) {
 		this.missionList = missionList;
-	}	
+	}
 
+	public int getChangeCount() {
+		return changeCount;
+	}
+
+	public void setChangeCount(int changeCount) {
+		this.changeCount = changeCount;
+	}
 }

@@ -51,4 +51,16 @@
 		UPDATE mission
 		SET mission_check = false	
 	</update>
+	
+	<update id="updateChangeCount">
+		UPDATE user
+		SET change_count = #{changeCount}
+		WHERE user_id = #{userId}
+	</update>
+	
+	<update id="resetChangeCount">
+		UPDATE user
+		SET change_count = 10
+	</update>
+	
 </mapper>

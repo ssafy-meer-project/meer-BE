@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.meer.model.dto.Mission;
+import com.meer.model.dto.User;
 
 public interface MissionDao {
 	
@@ -20,4 +21,8 @@ public interface MissionDao {
 	public int updateMissionCheck(Mission mission);
 	
 	public int resetMissionCheck();
+	
+	public int updateChangeCount(User user);
+	
+	public int resetChangeCount();
 }

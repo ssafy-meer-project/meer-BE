@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.meer.model.dao.MissionDao;
 import com.meer.model.dto.Mission;
+import com.meer.model.dto.User;
 
 import lombok.RequiredArgsConstructor;
 
@@ -55,5 +56,15 @@ public class MissionServiceImpl implements MissionService{
 	@Override
 	public int modifyMissionCheck(Mission mission) {		
 		return missionDao.updateMissionCheck(mission);
+	}
+
+	@Override
+	public int modifyChangeCount(User user) {		
+		return missionDao.updateChangeCount(user);
+	}
+
+	@Override
+	public int resetChangeCount() {
+		return missionDao.resetChangeCount();
 	}
 }

@@ -3,6 +3,7 @@ package com.meer.model.service;
 import java.util.List;
 
 import com.meer.model.dto.Mission;
+import com.meer.model.dto.User;
 
 public interface MissionService {
 	
@@ -19,6 +20,10 @@ public interface MissionService {
 	public int modifyMissionCheck(Mission mission);
 	
 	public int resetMissionCheck();
+	
+	public int modifyChangeCount(User user);
+	
+	public int resetChangeCount();
 
 	
 }
