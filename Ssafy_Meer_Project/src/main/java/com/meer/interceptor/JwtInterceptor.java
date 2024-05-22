@@ -29,7 +29,9 @@ public class JwtInterceptor implements HandlerInterceptor {
 		String token = request.getHeader(HEADER_AUTH);
 		String loginId = jwtUtil.validate(token);
 
-		String userId = request.getParameter("userId");
+		// Post로 넘어오는 body객체는 읽어올 수가 없어서 userId에서 null이 발생
+		// Spring security를 사용해보자.
+//		String userId = request.getParameter("userId");
 		
 		if (token != null) {
 //			if (userId.equals(loginId)) {
