@@ -14,8 +14,8 @@ CREATE TABLE IF NOT EXISTS user(
 user_id VARCHAR(40) NOT NULL PRIMARY KEY,
 user_password VARCHAR(40) NOT NULL,
 user_nickname VARCHAR(40) NOT NULL,
-fortune_number int NOT NULL DEFAULT (RAND()*100 %15), -- 포츈쿠키가 15개
-sentence_number int NOT NULL DEFAULT (RAND()*100 %10), -- 명언문구가 10개
+fortune_number int NOT NULL DEFAULT (1+(RAND()*100 %14)), -- 포츈쿠키가 15개
+sentence_number int NOT NULL DEFAULT (1+(RAND()*100 %9)), -- 명언문구가 10개
 mission_subject VARCHAR(100),
 mission_condition1 VARCHAR(100),
 mission_condition2 VARCHAR(100),

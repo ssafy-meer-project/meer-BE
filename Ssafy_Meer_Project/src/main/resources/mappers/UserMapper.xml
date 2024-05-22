@@ -22,8 +22,8 @@
 	
 	<update id="updateRandomNumber">	
 		UPDATE user 
-		SET fortune_number = (RAND()*100 %10),
-		sentence_number = (RAND()*100 %10); 
+		SET fortune_number = (1+(RAND()*100 %14)),
+		sentence_number = (1+(RAND()*100 %9)); 
 	</update>
 	
 	<select id="login" parameterType="User" resultType="User">
