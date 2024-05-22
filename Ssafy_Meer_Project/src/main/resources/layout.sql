@@ -136,7 +136,6 @@ delete from mission where user_id="ssafy123@edussafy.com";
 -- insert into user(user_id, user_password, user_nickname)
 -- values("ssafy", "123", "헬로");
 
-
 -- insert into mission(user_id, mission_id, mission_title, mission_content)
 -- values("ssafy", "1", "title1", "content1"),
 -- ("ssafy", "2", "title2", "content2"),
