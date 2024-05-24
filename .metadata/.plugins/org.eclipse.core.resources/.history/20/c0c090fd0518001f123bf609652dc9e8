@@ -1,0 +1,5 @@
+spring.application.name=demo
+
+api.kakao.key = 34235ac9a9a10f335c0d9f0e6eac7d1b
+
+openai.api.key=sk-proj-l5I5W4U30w6vKX9GZBspT3BlbkFJmtOy8aEhIHqFLeTi7vdr

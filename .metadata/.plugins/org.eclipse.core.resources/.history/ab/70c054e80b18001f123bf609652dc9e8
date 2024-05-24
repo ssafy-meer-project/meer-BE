@@ -1,0 +1,49 @@
+package com.meer.model.service;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.meer.config.ChatGptConfig;
+import com.meer.model.dto.CommentRequest;
+import com.meer.model.dto.ImageGenerationRequest;
+import com.meer.model.dto.ImageGenerationResponse;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RequiredArgsConstructor
+@Service
+public class ChatGptService {
+    private final RestTemplate restTemplate;
+
+	//api key를 application.yml에 넣어두었습니다.
+    @Value("${openai.api.key}")
+    private String apiKey;
+
+    public ImageGenerationResponse makeImages(CommentRequest commentRequest){
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.parseMediaType(ChatGptConfig.MEDIA_TYPE));
+        httpHeaders.add(ChatGptConfig.AUTHORIZATION, ChatGptConfig.BEARER + apiKey);
+
+        ImageGenerationRequest imageGenerationRequest = ImageGenerationRequest.builder()
+                .prompt(commentRequest.getComment())
+                .n(ChatGptConfig.IMAGE_COUNT)
+                .size(ChatGptConfig.IMAGE_SIZE)
+                .build();
+
+        HttpEntity<ImageGenerationRequest> requestHttpEntity = new HttpEntity<>(imageGenerationRequest, httpHeaders);
+
+        ResponseEntity<ImageGenerationResponse> responseEntity = restTemplate.postForEntity(
+                ChatGptConfig.IMAGE_URL,
+                requestHttpEntity,
+                ImageGenerationResponse.class
+        );
+        return responseEntity.getBody();
+    }
+}

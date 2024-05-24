@@ -1,0 +1,20 @@
+package com.meer.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api")
+public class DALLEController {
+
+    @Autowired
+    private DALLEService dalleService;
+
+    @GetMapping("/generate-image")
+    public ResponseEntity<String> generateImage() {
+        String imageData = dalleService.generateImage();
+        return ResponseEntity.ok(imageData);
+    }
+}

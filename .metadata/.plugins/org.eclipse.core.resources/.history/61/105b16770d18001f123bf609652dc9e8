@@ -1,0 +1,27 @@
+package com.meer.client;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+
+import com.meer.model.dto.ImageRequestDTO;
+
+@Component
+public class OpenAIImageClient {
+
+    private final RestTemplate restTemplate;
+
+    @Value("${openai.apiKey}")
+    private String apiKey;
+
+    public OpenAIImageClient(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
+    public byte[] generateImage(ImageRequestDTO requestDTO) {
+        // Implement the logic to call OpenAI Image Generation API
+        // Use restTemplate to make HTTP request
+        // Return the image bytes
+        return null; // Placeholder
+    }
+}

@@ -1,0 +1,3 @@
+spring.application.name=demo
+
+api.kakao.key = 34235ac9a9a10f335c0d9f0e6eac7d1b

@@ -1,0 +1,17 @@
+package com.demo.model.dto;
+
+import java.io.Serializable;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
+public class ImageGenerationRequest implements Serializable{
+	private String comment;
+	
+	public ImageGenerationRequest(String comment) {
+		this.comment = comment;
+	}
+
+}

@@ -1,0 +1,21 @@
+package com.meer.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.meer.model.dto.ImageRequestDTO;
+import com.meer.model.service.ImageService;
+
+@RestController
+public class ImageController {
+
+    @Autowired
+    private ImageService imageService;
+
+    @PostMapping("/generateImage")
+    public byte[] generateImage(@RequestBody ImageRequestDTO requestDTO) {
+        return imageService.generateImage(requestDTO);
+    }
+}

@@ -1,0 +1,43 @@
+package com.meer.client;
+
+import ai.openai.api.ApiException;
+import ai.openai.api.models.Completion;
+import ai.openai.api.models.CompletionRequest;
+import ai.openai.api.models.Engine;
+import ai.openai.api.models.EngineName;
+import ai.openai.api.models.OpenAIApi;
+import org.springframework.stereotype.Component;
+
+@Component
+public class OpenAIClient {
+
+    private static final String API_KEY = "YOUR_OPENAI_API_KEY";
+
+    private final OpenAIApi openaiApi;
+
+    public OpenAIClient() {
+        openaiApi = new OpenAIApi();
+        openaiApi.getApiClient().setApiKey(API_KEY);
+    }
+
+    public String generateImage() {
+        try {
+            // DALL-E를 사용하여 이미지를 생성하는 요청 객체 생성
+            CompletionRequest completionRequest = new CompletionRequest()
+                    .model(Engine.DALL_E_v1_1_0)
+                    .prompt("A painting of a beautiful sunset over the ocean.")
+                    .maxTokens(50)
+                    .stop("###");
+
+            // 이미지 생성 요청
+            Completion completion = openaiApi.createCompletion(completionRequest);
+
+            // 생성된 이미지 데이터 반환
+            return completion.getChoices().get(0).getText();
+        } catch (ApiException e) {
+            // API 요청 중 오류가 발생한 경우 처리
+            e.printStackTrace();
+            return null;
+        }
+    }
+}

@@ -1,0 +1,21 @@
+package com.demo.model.Service;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class KarloApiServiceImpl implements KarloApiService{
+	
+	@Value("${api.kakao.key")
+	private String kakaoRestApikey;
+
+	@Override
+	public String makeAiImage(String prompt) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,0 +1,20 @@
+package com.demo.model.dto;
+
+import java.io.Serializable;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
+public class ImageGenerationResponse implements Serializable{
+	private long created;
+    private List<ImageURL> data;
+
+    @Getter
+    @Setter
+    public static class ImageURL {
+        private String url;
+    }
+}

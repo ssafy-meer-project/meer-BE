@@ -1,0 +1,45 @@
+package com.demo.model.Service;
+
+import java.awt.Image;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class ChatServiceImpl implements ChatService{
+	
+	@Value("${api.kakao.key}")
+	private String kakaoRestApikey;
+	private String urlAddress = "https://api.kakaobrain.com/v2/inference/karlo/t21";
+	
+	
+	@Override
+	public String makeAiImage(String prompt) {
+		Map<String, Object> requestMap = Map.of(
+			"version", "2,1",
+			"prompt", prompt,
+			"height", 1024,
+			"width", 1024
+		);
+		Map<String, String> headers = Map.of(
+				"Authorization" , "kakaoAK"+kakaoRestApikey,
+				"Content-Type", "application/json"
+		);
+		
+		
+		return null;
+	}
+
+	public static void main(String[] args) {
+		ChatService service = new ChatServiceImpl();
+		String prompt = "A photo of a cute tiny cat on the cloud, daylight.";
+		service.makeAiImage(prompt);
+	}
+	
+
+}

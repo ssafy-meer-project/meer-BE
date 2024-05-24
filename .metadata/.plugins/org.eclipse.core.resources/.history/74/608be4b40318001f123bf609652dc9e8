@@ -1,0 +1,6 @@
+package com.demo.model.Service;
+
+public interface KarloApiService {
+
+	public String makeAiImage(String prompt);
+}

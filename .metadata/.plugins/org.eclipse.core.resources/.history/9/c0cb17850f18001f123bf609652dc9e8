@@ -1,0 +1,20 @@
+package com.meer.model.dto;
+
+import java.util.Map;
+
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+@Data
+@Getter
+@Setter
+public class ImageRequestDTO {
+
+    private String prompt;
+    private int numImages; // 생성할 이미지의 개수
+    private boolean enableDuplicates; // 중복된 이미지 허용 여부
+    private Map<String, Object> additionalParams; // 추가적인 요청 매개변수를 담을 Map
+
+    // 생성자, Getter 및 Setter
+}

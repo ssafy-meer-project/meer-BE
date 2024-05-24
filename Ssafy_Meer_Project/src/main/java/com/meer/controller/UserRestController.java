@@ -79,14 +79,14 @@ public class UserRestController {
 		Map<String, Object> result = new HashMap<>();
 		
 		User tmp = userService.login(user);
-		if(tmp != null) {			
+		if(tmp.getUserId() != null) {
 			result.put("message", "SUCCESS");
 			result.put("access-token", jwtUtil.createToken(user.getUserId()));
 			result.put("userId", user.getUserId());
 			status = HttpStatus.ACCEPTED;
 		}else {
 			result.put("message", "FAIL");
-			status = HttpStatus.UNAUTHORIZED;
+			status = HttpStatus.NO_CONTENT;
 		}
 		
 		return new ResponseEntity<>(result, status);		

@@ -76,7 +76,7 @@ public class MyPageRestController {
 		if(result == 1) {			
 			User user = userService.readUserById(userId);
 			return new ResponseEntity<>(user.isFortuneCheck(), HttpStatus.OK);
-		}
+		} 
 		return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
 	}
 

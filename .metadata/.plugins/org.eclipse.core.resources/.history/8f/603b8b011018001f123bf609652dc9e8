@@ -1,0 +1,5 @@
+package com.meer.model.dto;
+
+public class ImageDTO {
+
+}

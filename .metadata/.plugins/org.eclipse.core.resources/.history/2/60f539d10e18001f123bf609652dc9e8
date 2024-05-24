@@ -1,0 +1,68 @@
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
+
+import com.meer.model.dto.ImageRequestDTO;
+
+import lombok.RequiredArgsConstructor;
+
+@Controller
+
+public class DALL_EController {
+
+    private final String DALLE_API_ENDPOINT = "https://api.openai.com/v1/completions";
+    @Value("${openai.api.key}")
+    private final String API_KEY; // 수정 필요
+
+    @Autowired
+    private RestTemplate restTemplate;
+    
+    @Autowired
+    public DALL_EController(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
+    @PostMapping("/generateImage")
+    @ResponseBody
+    public ResponseEntity<byte[]> generateImage(@RequestBody ImageRequestDTO requestDTO) {
+        try {
+            // Set request headers with API key
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.setBearerAuth(API_KEY); // API 키 설정
+
+            // Set request body
+            Map<String, Object> requestBody = new HashMap<>();
+            requestBody.put("prompt", requestDTO.getPrompt());
+
+            // Send POST request to DALL-E API
+            ResponseEntity<byte[]> response = restTemplate.postForEntity(DALLE_API_ENDPOINT, headers, byte[].class);
+
+            // Return image data in the response
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.setContentType(MediaType.IMAGE_JPEG);
+            responseHeaders.setContentLength(response.getBody().length);
+            return new ResponseEntity<>(response.getBody(), responseHeaders, HttpStatus.OK);
+        } catch (HttpClientErrorException e) {
+            // Handle HTTP client errors
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); // Unauthorized status code
+        } catch (Exception e) {
+            // Handle other exceptions
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+}

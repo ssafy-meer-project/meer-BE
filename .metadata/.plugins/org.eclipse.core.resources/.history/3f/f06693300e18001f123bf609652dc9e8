@@ -1,0 +1,54 @@
+package com.meer.controller;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
+
+import com.meer.model.dto.ImageRequestDTO;
+
+@Controller
+public class DALL_EController {
+
+    private final String DALLE_API_ENDPOINT = "https://api.openai.com/v1/davinci-003/completions";
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @PostMapping("/generateImage")
+    @ResponseBody
+    public ResponseEntity<byte[]> generateImage(@RequestBody ImageRequestDTO requestDTO) {
+        try {
+            // Set request headers
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.setBearerAuth("YOUR_OPENAI_API_KEY");
+
+            // Set request body
+            Map<String, Object> requestBody = new HashMap<>();
+            requestBody.put("prompt", requestDTO.getPrompt());
+            // Add any additional parameters required by the DALL-E API
+
+            // Send POST request to DALL-E API
+            ResponseEntity<byte[]> response = restTemplate.postForEntity(DALLE_API_ENDPOINT, headers, byte[].class);
+
+            // Return image data in the response
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.setContentType(MediaType.IMAGE_JPEG);
+            responseHeaders.setContentLength(response.getBody().length);
+            return new ResponseEntity<>(response.getBody(), responseHeaders, HttpStatus.OK);
+        } catch (Exception e) {
+            // Handle exception
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+}

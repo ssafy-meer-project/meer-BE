@@ -1,0 +1,23 @@
+package com.demo.controller;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.demo.model.Service.KarloApiService;
+
+import lombok.RequiredArgsConstructor;
+
+@RestController
+@RequiredArgsConstructor
+public class ImageController {
+
+	private final KarloApiService karloApiService;
+	
+	@PostMapping("/test")
+	public ResponseEntity<?> createImage(@RequestBody Request requeset) {
+		String
+		
+		return entity;
+	}
+	
+}

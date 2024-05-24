@@ -1,0 +1,12 @@
+package com.demo.model.dto;
+
+import java.io.Serializable;
+
+public class CommentRequest implements Serializable{
+	private String comment;
+	
+	public CommentRequest(String comment) {
+		this.comment = comment;
+	}
+
+}

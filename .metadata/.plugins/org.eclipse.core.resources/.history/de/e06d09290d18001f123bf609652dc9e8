@@ -1,0 +1,8 @@
+package com.meer.model.dto;
+
+public class ImageRequestDTO {
+
+    private String prompt;
+
+    // Getter and Setter
+}

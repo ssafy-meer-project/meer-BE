@@ -1,0 +1,19 @@
+package com.meer.model.dto;
+
+import java.io.Serializable;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
+public class ImageGenerationRequest implements Serializable{
+	private String prompt;
+    
+
+    @Builder
+    public ImageGenerationRequest(String prompt) {
+        this.prompt = prompt;     
+    }
+}

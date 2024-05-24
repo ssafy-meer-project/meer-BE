@@ -1,0 +1,22 @@
+package com.demo.model.dto;
+
+import java.io.Serializable;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
+public class ImageGenerationResponse implements Serializable{
+	private String prompt;
+    private int n;
+    private String size;
+
+    @Builder
+    public ImageGenerationResponse(String prompt, int n, String size) {
+        this.prompt = prompt;
+        this.n = n;
+        this.size = size;
+    }
+}

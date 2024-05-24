@@ -83,15 +83,8 @@ public class MainPageRestController {
 	@PostMapping("/mission")
 	@Operation(summary = "미션을 새로 만드는 API", description = "subject에는 주제가, condition1에는 행동양식, condition2에는 행동장소, condition3에는 행동시간을 넣으면 생성한 미션 리스트 반환")
 	public ResponseEntity<?> makeMission(@RequestBody Condition condition) {
-		String userId = condition.getUserId(); 
+		String userId = condition.getUserId();
 
-		// 기존에 미션이 있으면은 기존 미션은 다 지우기
-		List<Mission> checkExistMission = missionService.getMission(userId);
-		if(checkExistMission != null) {
-			missionService.removeMission(userId);
-		}
-		
-		
 		// 프롬프트 작성부
 		String prompt = "너는 이제부터 사람들의 고민을 해결해주는 상담사야. 누군가 너에게 상담을 요청해왔어. 이 사람의 " + condition.getSubject()
 				+ "을 개선시킬 데일리 미션을 5개 만들려고 해. " + "세부조건은 다음과 같아. 1. 행동양식은 " + condition.getCondition1()

@@ -1,0 +1,6 @@
+package com.demo.model.Service;
+
+public interface ChatService {
+
+	public String makeAiImage(String prompt);
+}

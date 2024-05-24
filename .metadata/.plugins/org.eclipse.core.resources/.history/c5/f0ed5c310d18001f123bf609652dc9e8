@@ -1,0 +1,19 @@
+package com.meer.model.service;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class ImageService {
+
+    private final OpenAIImageClient openAIImageClient;
+
+    public ImageService(OpenAIImageClient openAIImageClient) {
+        this.openAIImageClient = openAIImageClient;
+    }
+
+    public byte[] generateImage(ImageRequestDTO requestDTO) {
+        // Call OpenAI Image Generation API using the client
+        // Process the response and return image bytes
+        return openAIImageClient.generateImage(requestDTO);
+    }
+}
